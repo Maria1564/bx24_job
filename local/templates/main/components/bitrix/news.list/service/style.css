@@ -1,0 +1,12 @@
+.date-col {font-weight: bold;    font-size: 16px;margin-right: 40px}
+.service-list-items .name {font-size: 24px;color:#000; text-decoration: none;display: block}
+.service-list-items .info {display:flex;margin-top:15px}
+.service-list-items .info div{padding-right: 50px;}
+.service-list-items .info span{    display: block;font-size: 12px;}
+.service-list-items .info span:first-child {color:#ccc;}
+.description {     max-height: 65px;
+    overflow: hidden;
+    line-height: 20px;
+    margin-top: 15px;}
+.list-item:hover {box-shadow: 0px 0px 5px #cad22a; background: #fafafa}
+.list-item:hover .name {text-decoration: underline}

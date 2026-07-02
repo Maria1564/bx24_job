@@ -1,0 +1,147 @@
+<?
+	if ($_REQUEST['DATE_FROM']) {
+		$s = strtotime($_REQUEST['DATE_FROM']);
+		//DATE_CREATE
+		$GLOBALS[$arParams["FILTER_NAME"]]['>=DATE_ACTIVE_FROM'] = date('d.m.Y 00:00:01', $s);
+		//$GLOBALS[$arParams["FILTER_NAME"]]['>=DATE_CREATE'] = date('d.m.Y 00:00:01', $s);
+	}
+	if ($_REQUEST['DATE_TO']) {
+		$s = strtotime($_REQUEST['DATE_TO']);
+		$GLOBALS[$arParams["FILTER_NAME"]]['<=DATE_ACTIVE_FROM'] = date('d.m.Y 23:59:59', $s);
+		//$GLOBALS[$arParams["FILTER_NAME"]]['<=DATE_CREATE'] = date('d.m.Y 23:59:59', $s);
+	}
+	
+	
+	if ($_REQUEST['SMS_VOTE_FROM']) {
+		$s = (int)$_REQUEST['SMS_VOTE_FROM'];
+		if($s>0 && $s<=10){
+			$GLOBALS[$arParams["FILTER_NAME"]]['>=PROPERTY_SMS_VOTE'] =$s;
+		}
+	}
+	if ($_REQUEST['SMS_VOTE_TO']) {
+		$s = (int)$_REQUEST['SMS_VOTE_TO'];
+		if($s>0 && $s<=10){
+			$GLOBALS[$arParams["FILTER_NAME"]]['<=PROPERTY_SMS_VOTE'] =$s;
+		}
+	}
+	
+	//SMS_SEND
+	/*
+		Фильтр должен сожержать галочку "Отправлено СМС", таким образом будут выгружаться клиенты кому были отправлены смс 
+		за определенный период времени, даже если на них не ответили. Сейчас можно посмотреть только отвеченные, указав диапазон оценок.
+	*/
+	if ($_REQUEST['SMS_SEND']=="Y") {
+		//SMS_SEND_DATE
+		$GLOBALS[$arParams["FILTER_NAME"]]['>PROPERTY_SMS_SEND_DATE'] = 1;
+	}
+	
+	//Обработка фильтра по количеству денег
+	if ($_REQUEST['MONEY_FROM']) {
+		$GLOBALS[$arParams["FILTER_NAME"]]['>=PROPERTY_MONEY'] = $_REQUEST['MONEY_FROM'];
+	}
+	if ($_REQUEST['MONEY_TO']) {
+		$GLOBALS[$arParams["FILTER_NAME"]]['<=PROPERTY_MONEY'] = $_REQUEST['MONEY_TO'];
+	}
+	
+	//DEPARTMENT
+	/*
+		if ($_REQUEST['DEPARTMENT'] > 0) {
+		$filter = Array('IBLOCK_ID' => CLient::CLIENT_IBLOCK_ID, 'PROPERTY_DEPARTMENT' => $_REQUEST['DEPARTMENT']);
+		//Получаем ID клиентов 
+		$rsItems = CIBlockElement::GetList(['NAME' => 'ASC'], $filter, false, false, ["IBLOCK_ID", 'ID']);
+		$idAr[]=0;
+		while ($arItem = $rsItems->GetNext()) {
+		$idAr[] = $arItem['ID'];
+		}
+		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_CLIENT'] =  $idAr;
+		}
+	*/
+	if ($_REQUEST['DEPARTMENT'] && $_REQUEST['PROP']['MANAGER']==null) {
+		//Выбираем всех менеджеров у которых отвед совпадает с выбранным Департаментов
+		$sql = CUser::GetList(($by = "id"), ($order = "desc"), ["WORK_DEPARTMENT" =>$_REQUEST['DEPARTMENT']]);
+		$arUsersId = [];
+		while($arUser = $sql->Fetch()){
+			
+			$arUsersId[] = $arUser['ID'];
+		}
+		// l($arUsersId);
+		// l($_REQUEST);
+		$_REQUEST['PROP']['MANAGER'] = '';
+		if(count($arUsersId)>0){
+			
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_MANAGER'] = $arUsersId;	 
+			}else {
+			
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_MANAGER'] = -1;
+		}
+		
+	}
+	
+	
+	
+	
+	foreach ($_REQUEST['PROP'] as $code => $value) {
+		if ($value == "")
+		continue;
+		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
+	}
+	/*
+		Обработка статуса
+	*/
+	if ($_REQUEST['STATUS']) {
+		$status = $_REQUEST['STATUS'];
+		if($status == 'success'){
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_BX24_STATUS_EXT'] = 1;
+			
+		}
+		if($status == 'failed'){
+			$GLOBALS[$arParams["FILTER_NAME"]]['!PROPERTY_BX24_STATUS_EXT'] = 1;
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_STATUS'] = Service::STATUS_CLOSED;
+		}
+		if($status == 'work'){
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_BX24_STATUS_EXT'] = false;
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_STATUS'] = Service::STATUS_ACTIVE;
+		}
+		if($status == 'done-no-done'){
+		    //Удалось реализовать?
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_BX24_STATUS_EXT'] = true;
+			//Статус (в работе - 1 , завершен - 2)
+			$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_STATUS'] = 2;
+		}
+	}
+	
+	//CLIENT_UNIQ
+	/*
+		Логика такая же, как и в выгрузке. Должны показываться только те консультации, которые за выбранный период являются первыми для этого клиента в году к которому принадлежит период.
+		Если период вообще не указан, то должны быть выведены все первые консультации в этом году.
+		
+		Пример. Указан период с 15 по 20 января 2021 года. За это время было 4 консультации. Клиенту Иванову - 15янв, Петрову 16янв и Сидорову 17янв и еще раз Иванову 18янв.
+		Мы проверяем, были ли в 2021 году уже консультации для этих клиентов. У Петрова была консультация 10 января. Значит его консультация от 16 января уже не уникальная.
+		У иванова ранее консультаций не было, значит его первая консультация 15 января уникальная, а вторая 18 января уже не укикальная. У Сидорова консультаций не было в этом году, поэтому его консультация 17 января уникальная. Итого, в уникальных консультациях у нас
+		1. Иванов 15янв
+		2. Сидоров 17янв
+	*/
+	if ($_REQUEST['CLIENT_UNIQ']=="Y") {
+		//SMS_SEND_DATE
+		$GLOBALS[$arParams["FILTER_NAME"]]['>PROPERTY_SMS_SEND_DATE'] = 1;
+	}
+	
+	
+	
+	
+	if($_GET['filter']=="log"){
+		l($GLOBALS[$arParams["FILTER_NAME"]]);
+	}
+	//l($_REQUEST);
+	$arClients = Client::getClients();
+	$arManagers = Helper::getManagers();
+	//$arDEPARTMENT = Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'DEPARTMENT');
+	$arData = getDepartments();
+	foreach($arData['result'] as $arT){
+		if(in_array($arT['ID'],[8]))continue;
+		$arDEPARTMENT [$arT['ID']] =$arT['NAME'] ;
+	}
+	$isConsultPage = false;
+	if($arParams['SEF_FOLDER']=='/consult/'){
+		$isConsultPage = true;
+	}			

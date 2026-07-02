@@ -1,0 +1,181 @@
+<?php
+	//php ini_set("max_execution_time", "60000");
+	header('Content-Type: application/json');
+	$isConsultPage = $GLOBALS['arFilter']['PROPERTY_TYPE'] == Service::TYPE_CONSALT_ID?true:false;
+	global $USER;
+	$filePath = $_SERVER['DOCUMENT_ROOT'] . "/upload/excel_processing/" . $USER->GetID() . ".json";
+	$folder = $_SERVER['DOCUMENT_ROOT'] . "/upload/excel_processing/" . $USER->GetID().'/';
+	
+	//Параметры фильтров
+	$DATE_TO =  false;
+	if($_REQUEST['DATE_TO']){
+	    $s = strtotime($_REQUEST['DATE_TO']);
+		$DATE_TO = date('d.m.Y 23:59:59', $s);
+	}
+	
+	$DATE_FROM =  false;
+	if($_REQUEST['DATE_FROM']){
+	    $s = strtotime($_REQUEST['DATE_FROM']);
+		$DATE_FROM = date('d.m.Y 23:59:59', $s);
+	}
+	
+	
+	
+	/* 
+		Вычисляем уникальнось клиента
+		Используется только для  выгрузки консультаций
+		
+	*/
+	if($isConsultPage && $_REQUEST['CLIENT_UNIQ'] != "Y"){
+		$cache = new CPHPCache();
+		$cache_time = 36000;
+		$cache_id = "consult_excel_";
+		foreach ($arResult["ITEMS"] as &$arItem) {
+			//Добавляем кеш
+			$idCache = $arItem['PROPERTIES']['CLIENT']['VALUE'].$arItem['DATE_ACTIVE_FROM'];
+			$cache_path = "consult_excel_".$idCache;
+			// если есть в кеш, то берем из кеша
+			if ($cache_time > 0 && $cache->InitCache($cache_time, $cache_id, $cache_path)) {
+				$res = $cache->GetVars();
+				if (is_array($res["data"]) && (count($res["data"]) > 0)){
+					$arItem['COUNT_N']=$res["data"];
+					continue;
+				}
+			}
+			//если нет в кеш то вычисляем уникальность клиента
+			
+			/*
+				Если у клиента  были ранее услуги
+			*/
+			$log = [];
+			$log[] = '=====================================';
+			$log[] = $arItem['NAME'];
+			$filter = [
+			'IBLOCK_ID' => IBLOCK_ID_SERVICE , 
+			'PROPERTY_TYPE'=> $isConsultPage?Service::TYPE_CONSALT_ID:Service::TYPE_SERVICE_ID,
+			'!ID' => $arItem['ID'] , 
+			//'<ID' => $arItem['ID'] , 
+			'ACTIVE'=>'Y',
+			'PROPERTY_CLIENT'=>$arItem['PROPERTIES']['CLIENT']['VALUE'], 
+			'<DATE_ACTIVE_FROM'=>$arItem['DATE_ACTIVE_FROM'],
+			//'<DATE_ACTIVE_FROM'=>$DATE_TO?$DATE_TO:$arItem['DATE_ACTIVE_FROM'],
+			'>DATE_ACTIVE_FROM'=>$DATE_FROM?$DATE_FROM:'01.01.'.date('Y').' 01:01:00',
+			];
+			$log[] = $filter;
+			// log2file('filter',$filter);
+			$rsItems = CIBlockElement::GetList(['DATE_ACTIVE_FROM' => 'ASC'], $filter, false, false, ["IBLOCK_ID", 'ID', "NAME", "CODE","DATE_ACTIVE_FROM","DATE_ACTIVE_TO","PROPERTY_CLIENT"]);
+			//if($_GET['t']==3)l($filter);
+			$n = 0;
+			
+			$arItem['COUNT_N'] = 0;
+			
+			while ($arItem2 = $rsItems->GetNext()) {
+				$log[] = $arItem2['ID'].' | '.$arItem2['NAME'].' | '.$arItem2['DATE_ACTIVE_FROM'];
+				$n++;
+				$arItem['COUNT_N']=$n;
+			}
+			$log['COUNT_N'] = $n;
+			if($arItem['PROPERTIES']['CLIENT']['VALUE'] == 4191){
+				//log2file('filter',$log,true);
+				
+			}
+			$cache->StartDataCache($cache_time, $cache_id, $cache_path);
+		    $cache->EndDataCache(["data" => $arItem['COUNT_N']]);
+		}//foreach			
+	}//if
+	
+	$raiting = new Raiting();
+
+	foreach ($arResult["ITEMS"] as &$arItem) {
+		$arItem = clearFileds( $arItem);
+		$arItem['PROPERTIES'] = clearPropertyArray(  $arItem['PROPERTIES']);
+		
+		if($arItem['PROPERTIES']['CLIENT']['VALUE']){
+			$arClient =  Client::getClientById($arItem['PROPERTIES']['CLIENT']['VALUE']);
+			$arClient['TYPE_NAME_INN'] = str_replace("ИНН:","",$arClient['TYPE_NAME_INN']);
+			$arClient['TYPE_NAME_INN'] = str_replace("quot;",'"',$arClient['TYPE_NAME_INN']);
+			if(strpos($arClient['TYPE_NAME_INN'],'ООО')!==false){
+				$arClient['PROPERTIES']['ORG_TYPE']['VALUE'] = "ООО";
+			}
+			if(strpos($arClient['TYPE_NAME_INN'],'ИП')!==false){
+	            $arClient['PROPERTIES']['ORG_TYPE']['VALUE'] = "ИП";
+			}
+			$arItem['CLIENT'] = [
+			'TYPE_NAME_INN' => $arClient['TYPE_NAME_INN'],
+			'NAME' => $arClient['NAME'],
+			'INN' => $arClient['PROPERTIES']['INN']['VALUE'],
+			'ORG_TYPE' =>$arClient['PROPERTIES']['ORG_TYPE']['VALUE'],
+			'ADDRESS' =>$arClient['PROPERTIES']['ADDRESS']['VALUE'],
+			];
+		}	
+		$arItem['RAITING'] =  $raiting->getServiceRaitingArray($arItem['ID']);		
+	}
+		//l($arResult["ITEMS"][8]);exit;
+	//Если не все записи обработаны то 
+	if($_REQUEST['ACTION']!='MAKE_FILE'){
+		if ( ($arResult['NAV_RESULT']->PAGEN-1) * $arResult['NAV_RESULT']->SIZEN < $arResult['NAV_RESULT']->NavRecordCount)
+		{
+			
+			
+			if (!file_exists($folder)) {     
+				mkdir($folder, 0777, true); 
+			}
+			//$filePath = $_SERVER['DOCUMENT_ROOT'] . "/upload/excel_processing/" . $USER->GetID().'_'.$arResult['NAV_RESULT']->PAGEN. ".json";
+			$filePath = $folder.''.$arResult['NAV_RESULT']->PAGEN. ".json";
+			if($arResult['NAV_RESULT']->PAGEN == 1){
+				// Очищаем папку
+				clearFolder($folder);
+				//unlink( $filePath);
+			}
+			else {
+				//	$arr = json_decode(file_get_contents($filePath) , true);
+				//	$arResult["ITEMS"] = array_merge(  $arr,$arResult["ITEMS"]);
+				// $arResult["ITEMS"] = $arResult["ITEMS"] + $arr;
+			}
+			
+			file_put_contents($filePath , json_encode($arResult["ITEMS"]));
+			
+			//l($_REQUEST);
+			echo json_encode([
+			"MODE"=>"PROCESSING",
+			"COUNT"=>count($arr),
+			"COUNT2"=>count($arResult["ITEMS"]),
+			"PAGEN" =>$arResult['NAV_RESULT']->PAGEN,
+			"SIZEN" =>$arResult['NAV_RESULT']->SIZEN,
+			"NAV_RESULT" =>(int)($arResult['NAV_RESULT']->NavRecordCount),
+			//"LOG"=>$_REQUEST,"LOG2"=>$_SESSION['sort'],
+			]);
+			exit;
+			
+		}
+	}
+	
+	//Если все данные закешировались!
+	if( $_REQUEST['ACTION']=='MAKE_FILE' || (($arResult['NAV_RESULT']->PAGEN-1) * $arResult['NAV_RESULT']->SIZEN >= $arResult['NAV_RESULT']->NavRecordCount )  ){
+		//Получаем все данные из папки 
+		$arResult["ITEMS"] = [];
+		foreach (glob($folder.'*') as $file) {
+			if($file){
+				$f = file_get_contents($file);
+			$arr = json_decode(file_get_contents($file) , true);
+			if($arr){
+				$arResult["ITEMS"] = array_merge(  $arr,$arResult["ITEMS"]);
+			}
+			}
+		}
+		
+		//  l(count( $arResult["ITEMS"]));
+		
+		
+	}
+	
+	//$arResult["ITEMS"] = json_decode(file_get_contents($filePath) , true);
+	
+	function clearFolder($folder) {
+		if (file_exists($folder)) {
+		foreach (glob($folder.'*') as $file) {
+		unlink($file);
+        }
+		}
+	}
+	

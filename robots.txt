@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Crawl-delay:3
+Sitemap:https://bx24.arbko.ru/index.php/sitemap.xml

@@ -1,0 +1,16 @@
+#checkbox-fs-display-value {}
+.cb-fs-wrap {    position: absolute;
+    width: 90%;
+    height: 165px;
+    background: #fff;
+    border: 1px solid #b5b1b1;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+    padding: 15px;
+    background: #f5f5f5;
+	display:none;
+	}
+.cb-fs-wrap .item {    float: left;
+    width: 165px;
+    margin: 2px;}

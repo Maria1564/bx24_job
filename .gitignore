@@ -1,0 +1,64 @@
+# Bitrix core and runtime data
+/bitrix/
+/upload/
+
+# Runtime/cache/temp
+/bitrix/cache/
+/bitrix/cache_2/
+/bitrix/cache_3/
+/bitrix/managed_cache/
+/bitrix/stack_cache/
+/bitrix/tmp/
+/upload/tmp/
+/tmp/
+/cache/
+
+# Backups and archives
+/bitrix/backup/
+*.gz
+*.tar
+*.tar.gz
+*.zip
+*.7z
+*.sql
+*.sql.gz
+*.enc.gz
+*.enc.gz.*
+
+# Logs
+/local/log/
+*.log
+log_*.txt
+
+# Secrets and environment-specific config
+/.settings.php
+/bitrix/.settings.php
+/bitrix/.settings.php.*
+/php.ini
+*.before-*
+
+# VCS/IDE/system
+/.git/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Public test/migration scratch area
+/test/
+
+# Server-specific files
+/cgi-bin/
+/.htaccess.before-*
+/test.php
+/index.htm
+
+# Project secrets
+/local/php_interface/config.php
+/local/php_interface/class/Bx24Token.php
+/upload/bx24_token_data
+
+# Runtime/test data
+/api/search/test.data
+/api/client/*.txt
+/local/cron/out.txt

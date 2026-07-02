@@ -1,0 +1,20 @@
+.client-contact-wrap {    margin: 5px;
+ 
+    padding: 5px;}
+	.add-contact-a {cursor:pointer; text-decoration:none; border-bottom:1px dashed #23527c}
+	#contacts-items {margin-top:10px;margin-bottom:20px;}
+.contacts-list {margin-bottom:20px;}
+.client-contact-wrap  .title {    font-weight: bold;
+    margin: 5px;}
+.form-section-contacts {margin-top: 20px;background: #dcedc8;padding: 10px;border-radius: 5px;}
+.form-section-org-info {background: #e6f2fb}
+.fiz-ur-link {    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;text-decoration: none;
+    background: #e0e0e0;color:#222}
+.fiz-ur-link.active {    background: #53ac53;
+    
+    color: #fff;}
+#sz_block_hide{
+	display:none;
+}	

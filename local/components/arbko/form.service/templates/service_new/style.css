@@ -1,0 +1,22 @@
+.form-section {    background: #eef4f7;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    padding: 8px;margin:10px 0;}
+.form-section  table td{background:none!important}
+.form-section-money {background:#f1f1f1}
+.form-section-date {background:#f7f3ee}
+.cb-fs-wrap {    position: absolute;
+    width: 90%;
+    height: auto;
+    background: #fff;
+    border: 1px solid #b5b1b1;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+    padding: 15px;
+    background: #f5f5f5;
+	display:none;
+	}
+.cb-fs-wrap .item {    float: left;
+    width: 165px;
+    margin: 2px;}

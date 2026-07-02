@@ -1,0 +1,16 @@
+.clients-list-items h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 5px;}
+.clients-list-items .description {      font-size: 14px;
+    max-height: 65px;
+    overflow: hidden;
+    line-height: 16px;}
+.clients-list-items .table-info {margin-top: 20px;}
+.clients-list-items .table-info td {    background: none;    padding: 0;}
+.clients-list-items .table-info span {font-size: 13px;}
+.clients-list-items .table-info span:first-child{display: block;    color: #9E9E9E;font-size: 12px;}
+.clients-list-items  .table-info-2 {}
+.clients-list-items  .table-info-2 td {    padding: 5px;
+        background: transparent;}

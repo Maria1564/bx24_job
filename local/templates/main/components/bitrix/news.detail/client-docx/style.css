@@ -1,0 +1,19 @@
+.client-logo { text-align: center}
+.client-logo img {max-width: 100%;}
+.item-summa-wrap {    position: absolute;
+    right: 0;
+    margin-top: -14px;}
+.item-summa-wrap span:first-child {}
+.item-summa-wrap span:last-child {font-weight: bold}
+
+.add-btn-circle span {        display: none;
+    width: 200px;
+    background: #fff;
+    border: 2px solid #4298c3;
+    padding: 5px;
+    position: absolute;
+    z-index: 2;
+    margin-top: -34px;
+}
+.add-btn-circle:hover span {  display: block;}
+.add-btn-circle span a{display: block;margin-top: 5px}
