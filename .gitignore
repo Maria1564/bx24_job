@@ -62,3 +62,6 @@ Thumbs.db
 /api/search/test.data
 /api/client/*.txt
 /local/cron/out.txt
+
+# Local setup backups
+*.codex-local-backup-*

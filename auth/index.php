@@ -6,15 +6,18 @@
 		$dbUser = CUser::GetByID($USER->GetID());
 		$arUser = $dbUser->Fetch();
 		$EMAIL = $arUser['EMAIL'];
-		$oBitrix = new \Zloykolobok\Bitrix24\Classes\User();
-		$oBitrix->setUrl(BX_WEBHOOK_URL);
-		$oBitrix->setTimeout(1000);
-		$filter = ["EMAIL" => $EMAIL];
+		$result = false;
+		if (defined('BX_WEBHOOK_URL') && BX_WEBHOOK_URL !== '') {
+			$oBitrix = new \Zloykolobok\Bitrix24\Classes\User();
+			$oBitrix->setUrl(BX_WEBHOOK_URL);
+			$oBitrix->setTimeout(1000);
+			$filter = ["EMAIL" => $EMAIL];
 		
-		/*
-		 Ищем этого пользователя среди сотрудников в црм.
-		*/
-		$result = $oBitrix->userGet($filter);
+			/*
+			 Ищем этого пользователя среди сотрудников в црм.
+			*/
+			$result = $oBitrix->userGet($filter);
+		}
 		//если находим то присваимваем ему группу МЕНЕДЖЕРЫ с ID = 5
 		if ($result) {
 		    $arGroups = CUser::GetUserGroup($USER->GetID());
