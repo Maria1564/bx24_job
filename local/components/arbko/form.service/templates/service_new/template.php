@@ -48,12 +48,12 @@
 		<div class="form-group">
 			<label>Название услуги</label>
 			<input  type="text" required="" class="form-control" name="NAME" class="ajax-search-inn"  placeholder="Название услуги" readonly="readonly"
-			onclick="alert('Название услуги формируется из направления и услуги');$('select[name=\'PROPERTY[DIRECTION]\']').focus()"
+			onclick="alert('Название услуги формируется из выбранной услуги');$('#DIRECTION_SERVICE').focus()"
 		    value="<?= $_REQUEST['NAME'] != '' ? $_REQUEST['NAME'] : '' ?>"
 		    >
 		</div>
 		
-		<? //Направление ?>
+		<? //Список услуг направления SD ?>
 		<? include '_direction_section.php'?>
 		
 		

@@ -1,4 +1,5 @@
 var inputTextTemplate = '';
+var serviceDirection = 'SD';
 
 //
 function formInit(){
@@ -6,23 +7,26 @@ function formInit(){
 	//Проверяем выбранные опции
 	//если установлен вывод формы ввода названия то показываем
 	let $option = $('#DIRECTION_SERVICE option:selected')
-	if($option.data('is_show_input')==='Y'){
+	let isCustomService = $option.data('is_show_input')==='Y';
+	if(isCustomService){
 		$('#SERVICE_CUSTOM_NAME').show();
-		//Теперь из назавния услуги нужно получить текст кастомной части.
-		//например  SD — Другое: это просто текст!!!
-		//получаем сначала шаблон текста
-		let direction = $("select[name='PROPERTY[DIRECTION]']").val();
+		//Теперь из названия услуги нужно получить текст кастомной части.
 		let service = $("select[name='PROPERTY[DIRECTION_SERVICE]'] option:selected").text();
-		inputTextTemplate = direction + ' — '+ service;
+		inputTextTemplate = service;
+		let legacyInputTextTemplate = serviceDirection + ' — ' + service;
 		console.log(inputTextTemplate);
 		let serviceName = $("input[name='NAME']").val();
-		let customText = serviceName.replace(inputTextTemplate,"").trim();
+		let customText = serviceName.replace(legacyInputTextTemplate,"").replace(inputTextTemplate,"").trim();
 		if(customText!==inputTextTemplate){
 			$('#SERVICE_CUSTOM_NAME').val(customText);
 		}
+		$('#SERVICE_CUSTOM_NAME').keyup();
 	}
 	
 	selectDirectionEvent(true);
+	if(!isCustomService){
+		generateServiceName();
+	}
 }
 function functTest(manager_id) {
 	console.log(manager_id);
@@ -42,11 +46,6 @@ $(document).ready(function () {
     $('button[type="submit"]').click(function(){
 	});
 	$('#form_service').on('submit',function(e){
-		if($("input[name='PROPERTY[FINANCE_SOURCE]'").val()==""){
-			$("input.fin_inp").css("border-color", "red");
-			e.preventDefault();
-			return true;
-		}	
 		if($(this).hasClass('sended'))return false;
 		$('#form_service').addClass('sended');
 		return true
@@ -62,8 +61,7 @@ $(document).ready(function () {
 
 function selectDirectionEvent(unsetDirectionVal = false){
 	console.log('...selectDirectionEvent...');
-	let $el = $("select[name='PROPERTY[DIRECTION]']");
-	let val = $el.val();
+	let val = serviceDirection;
 	console.log(val);
 	if(!unsetDirectionVal){
 		$("select[name='PROPERTY[DIRECTION_SERVICE]").val("");
@@ -96,11 +94,10 @@ function selectDirectionServiceEvent(){
 	
 }
 function generateServiceName(){
-	let direction = $("select[name='PROPERTY[DIRECTION]']").val();
 	let serviceVal = $("select[name='PROPERTY[DIRECTION_SERVICE]']").val();
 	console.log('serviceVal = '+serviceVal);
 	let service = $("select[name='PROPERTY[DIRECTION_SERVICE]'] option:selected").text();
-	let name = direction + ' — '+ service;
+	let name = service;
 	if(name.length && serviceVal){
 		inputTextTemplate = name;
     	let $el = $("input[name='NAME']").val(name);
