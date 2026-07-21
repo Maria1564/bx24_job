@@ -74,19 +74,6 @@
 		
 		
 		<div class="row ">
-			<div class="form-group col-md-3" >
-				
-				<?
-					$arDirections = Helper::getDirections();
-				?>
-				<label>Направление</label>
-				<select  name="PROPERTY[DIRECTION]" class="form-control" style="display:inline;max-width:120px;" required onchange="selectDirectionEvent()">
-					<option value="">Выбрать</option>
-					<?foreach($arDirections as $ar):?>			
-					<option value="<?=$ar['UF_XML_ID']?>" <?=$ar['UF_XML_ID']== $_REQUEST['PROPERTY']['DIRECTION']?'selected':''?>><?=$ar['UF_NAME']?></option>
-					<?endforeach?>			
-				</select>
-			</div>
 			<div class="form-group col-md-4">
 				<label>Дата и время</label>
 				<input id="startDate" type="date" class="form-control" name="DATE" style="display: inline;width: 150px;"
@@ -97,10 +84,6 @@
 			</div>
 			
 		</div>
-		
-		<? include '_finance_source.php'?>
-		
-		
 		
 		<div class="form-group">
 			<label>Комментарий</label>

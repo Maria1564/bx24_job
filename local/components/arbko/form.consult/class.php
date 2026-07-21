@@ -8,10 +8,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 class ConsulComponent extends CBitrixComponent {
 
 	private function addItems() {
-		if(!isset($_POST['PROPERTY']['FINANCE_SOURCE']) || $_POST['PROPERTY']['FINANCE_SOURCE'] == '') {
-            		return false;
-       		 }
-
 		if (!isset($_POST['NAME']))
 			return;
 		$s = strtotime($_REQUEST['DATE']);

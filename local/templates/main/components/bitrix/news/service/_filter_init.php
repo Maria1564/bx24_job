@@ -26,9 +26,6 @@
 		include 'filter/direction-consult.php';
 	}
 	
-	//STATUS
-	include 'filter/status.php';
-	
 	//CLIENT_UNIQ
 	include 'filter/uniq-user-v2.php';
 	

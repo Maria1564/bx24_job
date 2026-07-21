@@ -62,9 +62,6 @@
 		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
 	}
 	
-    	//STATUS
-	require $_SERVER['DOCUMENT_ROOT'].'/local/templates/main/components/bitrix/news/service/filter/status.php';
-	
 	if ($_GET['log'] == 1)
 	{
 		l($GLOBALS[$arParams["FILTER_NAME"]]);

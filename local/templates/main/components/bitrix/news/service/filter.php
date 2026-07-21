@@ -136,22 +136,6 @@
 			</div>
 		</div>
 		<div class="col-md-2">
-			<div class="form-group">
-				<label for="exampleFormControlSelect1">Реализована?</label>
-				<select class="form-control" <? /*name="PROP[STATUS]"*/?> name="STATUS">
-					<option value="">Все</option>
-					<option value="work" <?= $_REQUEST['STATUS'] == "work" ? 'selected' : '' ?>>В работе</option>
-					<option value="success" <?= $_REQUEST['STATUS'] ==  "success" ? 'selected' : '' ?>>Успешно завершена</option>
-					<option value="failed" <?= $_REQUEST['STATUS'] ==  "failed" ? 'selected' : '' ?>>Не успешно завершена</option>
-					<option value="done-no-done" <?= $_REQUEST['STATUS'] ==  "done-no-done" ? 'selected' : '' ?>>Не реализованные  и  реализованные </option>  
-					<? /*
-						<option value="2" <?= $_REQUEST['PROP']['STATUS'] == 2 ? 'selected' : '' ?>>Да</option>
-						<option value="1" <?= $_REQUEST['PROP']['STATUS'] == 1 ? 'selected' : '' ?>>Нет</option>
-					*/
-					?>
-				</select>
-			</div>
-			
 			<div style="margin-top: 50px;">
 				
 				<button type="button" onclick="filterGetData()" class="btn btn-success btn-sm" >Фильтровать</button>

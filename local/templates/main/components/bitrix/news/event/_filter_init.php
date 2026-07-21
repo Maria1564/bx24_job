@@ -27,15 +27,12 @@
 		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
 	}
 	if($isConsultPage){
-	   //проблема в том что у консультаций поле DIRECTION не заполняется,
-	   // и фильтровамть по нему не получится! 
-	   //поэтому сбрасываем фильтр и фильтруем через привязанных менеджеров
+	   //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ DIRECTION пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+	   // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! 
+	   //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		unset($GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_DIRECTION']);
 		include 'filter/direction-consult.php';
 	}
-	
-	//STATUS
-	include 'filter/status.php';
 	
 	//CLIENT_UNIQ
 	include 'filter/uniq-user-v2.php';
@@ -49,7 +46,7 @@
 	//DATE_CLOSE | DATE_ACTIVE_TO | DATE_OPEN
 	include 'filter/date-close.php';
 	
-	/**14/07/22 фильтр по типу организации****/
+	/**14/07/22 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ****/
 	/*
 	$arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM");
 	$arFilter = Array("IBLOCK_ID"=>1, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", array("LOGIC"=>"OR", array("PROPERTY_ORG_TYPE" => $_REQUEST["PROP"]["ORG_TYPE"]), array("PROPERTY_BLUE_CLIENT" => $_REQUEST["PROP"]["BLUE_CLIENT"]), array("PROPERTY_SX" => $_REQUEST["PROP"]["SX"])));
@@ -68,7 +65,7 @@
 	
 	/**14/07/22 END****/
 	
-	/**30/08/22 фильтр по типу организации****/
+	/**30/08/22 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ****/
 	/*$arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM");
 	$arFilter = Array("IBLOCK_ID"=>1, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_BLUE_CLIENT" => $_REQUEST["PROP"]["BLUE_CLIENT"]);
 	$res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
@@ -90,3 +87,4 @@
 	$arManagers = Helper::getManagersExt();
 	$arDirections = Helper::getDirections();
 	
+
