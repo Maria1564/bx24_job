@@ -20,14 +20,6 @@
 			</div>
 			
 			<div class="form-group">
-				<label>Дата добавления</label>
-				<br>
-				От <input type="date" name="DATE_FROM"  class="form-control" value="<?= $_REQUEST['DATE_FROM'] ?>">
-				<br>
-				До <input type="date" name="DATE_TO"  class="form-control" value="<?= $_REQUEST['DATE_TO'] ?>">
-			</div>
-
-			<div class="form-group">
                 <label>ОКВЭД</label>
                 <input
                     type="text"
@@ -88,128 +80,6 @@
 			</div>
 			
 			<div class="form-check">
-				<input class="form-check-input" type="radio" name="MSP" id="MSP4" value="FALSE" <?= $_REQUEST['MSP'] == 'N' ? 'checked' : '' ?>>
-				<label class="form-check-label" for="MSP4">
-					Не известно
-				</label>
-			</div>
-			
-			<?/***Голубой клиент? 07.06.22***/?>
-			<div class="form-check">
-				<input 
-				class="form-check-input" 
-				type="checkbox"  
-				id="blue_client" 
-				name='PROP[BLUE_CLIENT][]' 
-				value="22"
-				>
-				<label class="form-check-label" for="blue_client">
-					Приоритетный клиент?
-				</label>
-			</div>
-			
-			<?/***Сельское хозяйство? 18.03.23***/?>
-			<div class="form-check">
-				<input 
-				class="form-check-input" 
-				type="checkbox"  
-				id="sx" 
-				name='PROP[SX][]' 
-				value="23"
-				>
-				<label class="form-check-label" for="sx">
-					Сельское хозяйство?
-				</label>
-			</div>
-			
-			<?/***Крупный бизнес? 05.11.25***/?>
-			<div class="form-check">
-				<input 
-				class="form-check-input" 
-				type="checkbox"  
-				id="BIG_BUSINESS" 
-				name='PROP[BIG_BUSINESS][]' 
-				value="54"
-				>
-				<label class="form-check-label" for="BIG_BUSINESS">
-					Крупный бизнес?
-				</label>
-			</div>
-			<?/***Ветеран СВО/член семьи ветерана СВО? 05.11.25***/?>
-			<div class="form-check">
-				<input 
-				class="form-check-input" 
-				type="checkbox"  
-				id="SVO" 
-				name='PROP[SVO][]' 
-				value="55"
-				>
-				<label style="display: inline;" class="form-check-label" for="SVO">
-					Ветеран СВО/член семьи ветерана СВО?
-				</label>
-			</div>
-			
-			<?/*** 24.11.25***/?>
-			<div class="form-check">
-				<input 
-				class="form-check-input" 
-				type="checkbox"  
-				id="IMPANTIANT" 
-				name='PROP[IMPANTIANT][]' 
-				value="56"
-				>
-				<label style="display: inline;" class="form-check-label" for="IMPANTIANT">
-					Импатриант?
-				</label>
-			</div>
-			
-			
-			<?
-			// У иматриантов может быть профессия и страна
-				$arPROFESSIONS = Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'PROFESSIONS');
-				$arCOUNTRIES= Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'COUNTRIES');
-			?>
-			<script>
-				$(document).ready(function(){
-					
-					$('#IMPANTIANT').on('change',function(){
-						if($(this).is(':checked')){
-							$(".row.profession").removeClass("hide");
-							$(".row.countries").removeClass("hide");
-						}
-						else{
-							$(".row.profession").addClass("hide");
-							$(".row.countries").addClass("hide");
-						}
-					});
-					
-				});
-			</script>
-			<div class="row profession hide">
-					<div class="col-md-12 form-group">
-						<label>Профессия</label>
-						<select name='PROP[PROFESSIONS]' class="form-control prof_select" >
-							<option value="" >Выберите профессию</option>
-							<? foreach ($arPROFESSIONS as $id_prof => $val_prof): ?> 
-								<option value="<?= $id_prof ?>" <?= $_REQUEST['PROP']['PROFESSIONS'] == $id_prof ? 'selected' : '' ?>><?= $val_prof['VALUE'] ?></option>
-							<? endforeach ?>
-						</select>	   
-					</div>
-			</div>
-			<div class="row countries hide">
-					<div class="col-md-12 form-group">
-						<label>Страна</label>
-						<select name='PROP[COUNTRIES]' class="form-control prof_select" >
-							<option value="" >Страна</option>
-							<? foreach ($arCOUNTRIES as $id_country => $val_country): ?> 
-								<option value="<?= $id_country ?>" <?= $_REQUEST['PROP']['COUNTRIES'] == $id_country ? 'selected' : '' ?>><?= $val_country['VALUE'] ?></option>
-							<? endforeach ?>
-						</select>	   
-					</div>
-			</div>
-			
-			
-			<div class="form-check">
 				<input 
 				class="form-check-input" 
 				type="checkbox"  
@@ -221,23 +91,6 @@
 					Креативный предприниматель?
 				</label>
 			</div>
-			
-			
-			<div class="form-check">
-				<input 
-				class="form-check-input" 
-				type="checkbox"  
-				id="OBSHEPIT" 
-				name='PROP[OBSHEPIT][]' 
-				value="71"
-				>
-				<label style="display: inline;" class="form-check-label" for="OBSHEPIT">
-					Общепит
-				</label>
-			</div>
-			
-			
-			
 			
 			
 		</div>

@@ -136,106 +136,10 @@
 				
 				
 				
-				<?/***NEW***/?>
-				<div class="form-group BLUE-field" style="position: relative">
-					<label>Голубой клиент?</label>
-					<input type="checkbox" name="PROPERTY[BLUE_CLIENT]" <?if($_REQUEST['PROPERTY']['BLUE_CLIENT']==22):?>checked<?endif?> value="Y">
-				</div>
-				
-				<div class="form-group BLUE-field" style="position: relative">
-					<label>Крупный бизнес?</label>
-					<input type="checkbox" name="PROPERTY[BIG_BUSINESS]" <?if($_REQUEST['PROPERTY']['BIG_BUSINESS']==54):?>checked<?endif?> value="Y">
-				</div>
-				<div class="form-group BLUE-field" style="position: relative">
-					<label>Ветеран СВО/член семьи ветерана СВО?</label>
-					<input type="checkbox" name="PROPERTY[SVO]" <?if($_REQUEST['PROPERTY']['SVO']==55):?>checked<?endif?> value="Y">
-				</div>
-				
-				<div class="form-group BLUE-field" style="position: relative">
-					<label>Импатриант?</label>
-					<input class="impatriant" type="checkbox" name="PROPERTY[IMPANTIANT]" <?if($_REQUEST['PROPERTY']['IMPANTIANT']==56):?>checked<?endif?> value="Y">
-				</div>
-				
-				<style>
-				.profession.hide{
-					display:none;
-				}
-				</style>
-				<?
-				$arPROFESSIONS = Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'PROFESSIONS');
-				$arCOUNTRIES = Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'COUNTRIES');
-				?>
-				
-				<?if($_REQUEST['PROPERTY']['IMPANTIANT']!=56):?>
-					<script>
-						$(document).ready(function(){
-							
-							$('.impatriant').on('change',function(){
-								if($(this).is(':checked')){
-									$(".row.profession").removeClass("hide");
-									$(".row.countries").removeClass("hide");
-								}
-								else{
-									$(".row.profession").addClass("hide");
-									$(".row.countries").addClass("hide");
-								}
-							});
-							
-						});
-					</script>
-				<?else:?>
-					<script>
-						$(document).ready(function(){
-							$(".row.profession").removeClass("hide");
-							$(".row.countries").removeClass("hide");
-						});
-					</script>
-				<?endif?>
-				
-				
-				
-				<div class="row profession hide">
-					<div class="col-md-6 form-group">
-						<label>Профессия (для Импатриант)</label>
-						<select name="PROPERTY[PROFESSIONS]" class="form-control prof_select" >
-							<option value="" >Выберите профессию</option>
-							<? foreach ($arPROFESSIONS as $id_prof => $val_prof): ?> 
-								<option value="<?= $id_prof ?>" <?= $_REQUEST['PROPERTY']['PROFESSIONS'] == $id_prof ? 'selected' : '' ?>><?= $val_prof['VALUE'] ?></option>
-							<? endforeach ?>
-						</select>	   
-					</div>
-				</div>
-				
-				<div class="row countries hide">
-					<div class="col-md-6 form-group">
-						<label>Страна (для Импатриант)</label>
-						<select name="PROPERTY[COUNTRIES]" class="form-control prof_select" >
-							<option value="" >Выберите страну</option>
-							<? foreach ($arCOUNTRIES as $id_country => $val_country): ?> 
-								<option value="<?= $id_country ?>" <?= $_REQUEST['PROPERTY']['COUNTRIES'] == $id_country ? 'selected' : '' ?>><?= $val_country['VALUE'] ?></option>
-							<? endforeach ?>
-						</select>	   
-					</div>
-				</div>	
-				
-				
-				
 				<div class="form-group BLUE-field" style="position: relative">
 					<label>Креативный предприниматель?</label>
 					<input type="checkbox" name="PROPERTY[KREATIV]" <?if($_REQUEST['PROPERTY']['KREATIV']==57):?>checked<?endif?> value="Y">
 				</div>
-				
-				<div class="form-group SX-field" style="position: relative">
-					<label>Сельское хозяйство</label>
-					<input type="checkbox" name="PROPERTY[SX]" <?if($_REQUEST['PROPERTY']['SX']==23):?>checked<?endif?> value="Y">
-				</div>
-				<?/**END**/?>
-				
-				<div class="form-group OB-field" style="position: relative">
-					<label>Общепит</label>
-					<input type="checkbox" name="PROPERTY[OBSHEPIT]" <?if($_REQUEST['PROPERTY']['OBSHEPIT']==71):?>checked<?endif?> value="Y">
-				</div>
-				
 				
 				
 				<? include '_org-info.php'?>
