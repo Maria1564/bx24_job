@@ -11,10 +11,6 @@
 	class ServiceComponent extends CBitrixComponent {
 		
 		private function addItems() {
-			if(!isset($_POST['PROPERTY']['FINANCE_SOURCE']) || $_POST['PROPERTY']['FINANCE_SOURCE'] == '') {
-				return false;
-			}
-
 			if (!isset($_POST['NAME']))
 			return;
 			if($_REQUEST['DATE']){
@@ -36,7 +32,7 @@
 				$_REQUEST['DATE_ACTIVE_TO'] =  date('d.m.Y', $s) . ' ' . $_REQUEST['TIME_END'];
 			}
 			//CREATED
-			// Успешно реализовано? PROPERTY[BX24_STATUS_EXT]
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ? PROPERTY[BX24_STATUS_EXT]
 			
 			if($_REQUEST['DATE_END']){
 				$_REQUEST['PROPERTY']['STATUS'] =   Service::STATUS_CLOSED;		
@@ -50,7 +46,7 @@
 			if(isset($_REQUEST['ADD_TASK_TO_B24'])){
 				$_REQUEST['PROPERTY']['CREATED'] = "SITE_AND_ADD_TO_BX24";
 			}
-			//Обработка чексбоксов
+			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			if(!isset($_REQUEST['PROPERTY']['CLIENT_REFUSED'])){
 				$_REQUEST['PROPERTY']['CLIENT_REFUSED'] = "";
 			}
@@ -58,7 +54,7 @@
 				$_REQUEST['PROPERTY']['BX24_STATUS_EXT'] = "";
 			}
 			else {
-				//Успешно реализовано? PROPERTY[BX24_STATUS_EXT] == 1
+				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ? PROPERTY[BX24_STATUS_EXT] == 1
 				if($_REQUEST['DATE_END']==""){
 					$s = strtotime(time());
 					$_REQUEST['DATE_ACTIVE_TO'] =  date('d.m.Y H:i:s');
@@ -102,14 +98,6 @@
 			if ($_REQUEST['client_id'] > 0) {
 				$this->arResult["CLIENT"] = Client::getClientById($_REQUEST['client_id']);
 			}
-			$allManager = Helper::getManagers();
-			$manager_id = 0;
-			if ($_REQUEST['PROPERTY']['MANAGER'] > 0) {
-				$manager_id = $_REQUEST['PROPERTY']['MANAGER'];
-				} else {
-				$manager_id = $USER->GetID();
-			}
-			$this->arResult["MANAGER"] = $allManager[$manager_id];
 			if ($this->startResultCache()) {
 				
 				$this->includeComponentTemplate();
