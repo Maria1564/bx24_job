@@ -102,18 +102,6 @@
 			<br><br>
 			
 		</div>
-		<div class="form-group" style="display:none">
-			<label>Задача в битрикс24</label>
-			
-			<a id="bx24_task_link" style="cursor: pointer;  <?=$_REQUEST["PROPERTY"]['BX24_TASK_ID'] > 0?'':'display:none'?>" href="https://arbko.bitrix24.ru/company/personal/user/6/tasks/task/view/<?=$_REQUEST["PROPERTY"]['BX24_TASK_ID']?>/" target="_blank">услуга привязана к задаче в arbko.bitrix24.ru</a>
-			
-			<a id="bx24_task_link_btn" style="cursor: pointer; <?=$_REQUEST["PROPERTY"]['BX24_TASK_ID'] > 0?'display:none':''?>" onclick="selectTaskBx24()">Привязать задачу</a>
-			
-			
-			<input type="hidden" id="input-BX24_TASK_ID" class="form-control" name="PROPERTY[BX24_TASK_ID]" value="<?= $_REQUEST["PROPERTY"]['BX24_TASK_ID'] ?>">	
-		</div>
-		
-		
 		<div class="form-group">
 			<label style="width:190px">Дата начала услуги</label>
 			<input type="date" class="form-control" name="DATE" style="display: inline;width: 150px;"
@@ -132,22 +120,6 @@
 			<small id="emailHelp" class="form-text text-muted">Не обязательный параметр</small>
 		</div>
 		
-		<div>
-		 <div class="col-md-6">
-		 <div class="form-group">
-			<label style="width:190px">Успешно реализовано?</label>
-			<input type="checkbox" name="PROPERTY[BX24_STATUS_EXT]" value="1" <?= $_REQUEST["PROPERTY"]['BX24_STATUS_EXT']==1?'checked':'' ?>>
-		</div>
-		 </div>
-		 <div class="col-md-6">
-		 <div class="form-group">
-			<label style="width:190px">Отказ от услуги</label>
-			<input type="checkbox" name="PROPERTY[CLIENT_REFUSED]" value="1" <?= $_REQUEST["PROPERTY"]['CLIENT_REFUSED']==1?'checked':'' ?>>
-		</div>
-		 </div>
-		</div>
-		
-		
 		<div class="form-group">
 			<label>Комментарий</label>
 			<textarea required="" class="form-control" name="PREVIEW_TEXT"><?= $_REQUEST['PREVIEW_TEXT'] != '' ? $_REQUEST['PREVIEW_TEXT'] : '' ?></textarea>
@@ -161,15 +133,4 @@
 		<? endif ?>
 		
 	</form>
-</div>
-<div type="html/tpl" id="service-task-bx24-template" style="display: none">
-    <div>
-		<form action="/api/bx24/service/search.php" class="form" onsubmit="formSubmitHandler(this, service.searchSubmitHandler);return false">
-			<input type="hidden" name="CLIENT_ID" value="<?= $_REQUEST['client_id'] ?>">
-			<input type="text" class="" style="min-width: 387px;padding: 5px;" name="q" placeholder="Введите название задачи">
-			<button class="send btn btn-success" >поиск</button>
-		</form>
-		<div class="form-result"></div>
-	</form> 
-</div>
 </div>

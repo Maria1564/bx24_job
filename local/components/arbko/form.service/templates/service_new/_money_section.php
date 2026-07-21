@@ -15,24 +15,5 @@
 				</td>
 			</tr>
 		</table>
-		
-		<br><br>
-		<? include '_finance_source.php'?>
-		<? /*
-		<div class="form-group">
-					<?
-						$arINCOME = Helper::getFinanceSource();
-						
-					?>
-					<label>Источник финансирования</label>
-					<select  name="PROPERTY[FINANCE_SOURCE]" class="form-control" >
-					<option  value="">Выберите значение</option>
-						<?foreach($arINCOME as $t):?>
-						<option <?= $_REQUEST['PROPERTY']['FINANCE_SOURCE'] == $t ? 'selected' : '' ?> value="<?=$t?>"><?=$t?></option>
-						<?endforeach?>
-					</select>
-				
-		</div>
-		*/?>
 	</div>
 </div>

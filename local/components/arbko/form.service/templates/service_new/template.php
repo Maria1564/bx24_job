@@ -64,18 +64,6 @@
 		<? //Денег получено (прямая поддержка) ?>
 		<? include '_money_section.php'?>
 		
-		<div class="form-group" style="display:none">
-			<label>Задача в битрикс24</label>
-			
-			<a id="bx24_task_link" style="cursor: pointer;  <?=$_REQUEST["PROPERTY"]['BX24_TASK_ID'] > 0?'':'display:none'?>" href="https://arbko.bitrix24.ru/company/personal/user/6/tasks/task/view/<?=$_REQUEST["PROPERTY"]['BX24_TASK_ID']?>/" target="_blank">услуга привязана к задаче в arbko.bitrix24.ru</a>
-			
-			<a id="bx24_task_link_btn" style="cursor: pointer; <?=$_REQUEST["PROPERTY"]['BX24_TASK_ID'] > 0?'display:none':''?>" onclick="selectTaskBx24()">Привязать задачу</a>
-			
-			
-			<input type="hidden" id="input-BX24_TASK_ID" class="form-control" name="PROPERTY[BX24_TASK_ID]" value="<?= $_REQUEST["PROPERTY"]['BX24_TASK_ID'] ?>">	
-		</div>
-		
-		
 		<? include '_date_section.php'?>
 		
 		<? include '_bottom_section.php'?>
@@ -95,15 +83,4 @@
 		<? endif ?>
 		
 	</form>
-</div>
-<div type="html/tpl" id="service-task-bx24-template" style="display: none">
-    <div>
-		<form action="/api/bx24/service/search.php" class="form" onsubmit="formSubmitHandler(this, service.searchSubmitHandler);return false">
-			<input type="hidden" name="CLIENT_ID" value="<?= $_REQUEST['client_id'] ?>">
-			<input type="text" class="" style="min-width: 387px;padding: 5px;" name="q" placeholder="Введите название задачи">
-			<button class="send btn btn-success" >поиск</button>
-		</form>
-		<div class="form-result"></div>
-	</form> 
-</div>
 </div>

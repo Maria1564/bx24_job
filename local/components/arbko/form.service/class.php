@@ -32,8 +32,6 @@
 				$_REQUEST['DATE_ACTIVE_TO'] =  date('d.m.Y', $s) . ' ' . $_REQUEST['TIME_END'];
 			}
 			//CREATED
-			// ������� �����������? PROPERTY[BX24_STATUS_EXT]
-			
 			if($_REQUEST['DATE_END']){
 				$_REQUEST['PROPERTY']['STATUS'] =   Service::STATUS_CLOSED;		
 			}
@@ -43,25 +41,6 @@
 			}
 			
 			$_REQUEST['PROPERTY']['CREATED'] = "SITE";
-			if(isset($_REQUEST['ADD_TASK_TO_B24'])){
-				$_REQUEST['PROPERTY']['CREATED'] = "SITE_AND_ADD_TO_BX24";
-			}
-			//��������� ����������
-			if(!isset($_REQUEST['PROPERTY']['CLIENT_REFUSED'])){
-				$_REQUEST['PROPERTY']['CLIENT_REFUSED'] = "";
-			}
-			if(!isset($_REQUEST['PROPERTY']['BX24_STATUS_EXT'])){
-				$_REQUEST['PROPERTY']['BX24_STATUS_EXT'] = "";
-			}
-			else {
-				//������� �����������? PROPERTY[BX24_STATUS_EXT] == 1
-				if($_REQUEST['DATE_END']==""){
-					$s = strtotime(time());
-					$_REQUEST['DATE_ACTIVE_TO'] =  date('d.m.Y H:i:s');
-				}	
-				$_REQUEST['PROPERTY']['STATUS'] =   Service::STATUS_CLOSED;	
-			}
-			
 			//l($_REQUEST);exit;
 			session_start();
 			$_SESSION['IGNORE_WEBHOOK'] = "Y";

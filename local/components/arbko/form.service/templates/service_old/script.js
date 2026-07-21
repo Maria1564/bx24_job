@@ -6,11 +6,6 @@
             $('#manager-span').html(manager.FIO);
         }
 
-function selectTaskBx24(){
-     var form = renderTemplate('service-task-bx24-template');
-    xmodalShow("Поиск задачи в CRM Bitrix24", form);
-}
-
 $(document).ready(function () {
     
     $('button[type="submit"]').click(function(){
