@@ -298,6 +298,7 @@ if(!empty($_REQUEST["UNIQUE"])){
 $arManagers = Helper::getManagersExt();
 
 $arIndustry = Helper::getOrgIndustry();
+$arIndustrialSectors = Helper::getIndustrialSectors();
 $arRegions = Helper::getRegions();
 $arDirections = Helper::getDirections();
 

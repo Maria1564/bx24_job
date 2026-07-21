@@ -29,6 +29,18 @@
                     placeholder="Например 47.11"
                 >
             </div>
+
+			<div class="form-group">
+				<label>Отрасль промышленности</label>
+				<select class="form-control" name="PROP[INDUSTRIAL_SECTORS]" onchange="filterGetData()">
+					<option value="">Все</option>
+					<? foreach ($arIndustrialSectors as $id => $name): ?>
+					<option value="<?= $id ?>" <?= $_REQUEST['PROP']['INDUSTRIAL_SECTORS'] == $id ? 'selected' : '' ?>>
+						<?= $name ?>
+					</option>
+					<? endforeach ?>
+				</select>
+			</div>
 			
 		</div>
 		<div class="col-md-2">
