@@ -147,6 +147,13 @@ class Client {
 			$arInput['PROPERTY']['KREATIV'] = 0;
 		}
 		
+		if($arInput['PROPERTY']['WOMEN_BUSINESS']=="Y"){ // чекбокс Женское предпринимательство?
+			$arInput['PROPERTY']['WOMEN_BUSINESS'] = 86;
+		}
+		else{
+			$arInput['PROPERTY']['WOMEN_BUSINESS'] = 0;
+		}
+		
 
 		if($arInput['PROPERTY']['SX']=="Y"){ // чекбокс голубой клиент?
 			$arInput['PROPERTY']['SX'] = 23;

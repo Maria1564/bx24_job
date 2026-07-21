@@ -46,25 +46,13 @@
 				<? endif ?>
 				<div class="form-group" >
 					<label>Тип клиента: 
-						<a class="fiz-ur-link fiz-link <?= $_REQUEST['PROPERTY']['ORG_TYPE'] == Client::ORG_TYPE_FIZ_ID&& $arResult['CLIENT']["PROPERTIES"]['SZ']['VALUE'] != 'Y' ? 'active' : '' ?>" 
-						onclick="setFormType('fiz',<?= Client::ORG_TYPE_FIZ_ID ?>)">Физлицо</a>  
-						<a class="fiz-ur-link ur-link <?= $_REQUEST['PROPERTY']['ORG_TYPE'] != Client::ORG_TYPE_FIZ_ID ? 'active' : '' ?>" 
+						<a class="fiz-ur-link ur-link <?= $_REQUEST['PROPERTY']['ORG_TYPE'] != Client::ORG_TYPE_INDIVIDUAL_ID ? 'active' : '' ?>" 
 						onclick="setFormType('ur',<?= Client::ORG_TYPE_OOO_ID ?>)">Юрлицо</a>
 						<?// NEW IP?>
 						<a class="fiz-ur-link ip-link <?= $_REQUEST['PROPERTY']['ORG_TYPE'] == 4 ? 'active' : '' ?>" onclick="setFormType('ip',<?=Client::ORG_TYPE_INDIVIDUAL_ID?>)">ИП</a>
-						<a class="fiz-ur-link sz-link <?= $_REQUEST['PROPERTY']['ORG_TYPE'] == 16 ? 'active' : '' ?>" onclick="setFormType('sz',16)">Самозанятый</a>
-						<?/*
-							<a class="fiz-ur-link sz-link <?= $arResult['CLIENT']["PROPERTIES"]['SZ']['VALUE'] == 'Y' ? 'active' : '' ?>" onclick="setFormType('sz',16)">Самозанятый</a>
-						*/?>						
 					</label>
 
 				</div>	
-				
-					<div id="sz_block_hide" class="form-group BLUE-field" style="position: relative ;<?if($_REQUEST['PROPERTY']['ORG_TYPE'] == 4):?> display:block;<?endif?>">
-						<label>Самозанятый?</label>
-						<input type="checkbox" name="PROPERTY[SZ]" <?if($_REQUEST['PROPERTY']['SZ']==17):?>checked<?endif?> value="Y">
-					</div>
-				
 				
 				<? /*
 					<input type="hidden"  class="input-BX24_COMPANY_ID"  name="PROPERTY[BX24_COMPANY_ID]">
@@ -72,7 +60,6 @@
 				*/
 				?>
 				<input type="hidden"  class="input-ORG_TYPE"  name="PROPERTY[ORG_TYPE]" >
-				<?/*<input type="hidden"  class="input-SZ"  name="PROPERTY[SZ]" value="<?=$arResult['CLIENT']["PROPERTIES"]['SZ']['VALUE_ENUM_ID'] ?>">*/?>
 				<div class="form-group fiz-hide sz-show" style="position: relative">
 					<label>ИНН</label>
 					<input autocomplete="off" type="text" id="input-org-inn" class="form-control input-INN" name="PROPERTY[INN]" data-result="#sr-inn" class="ajax-search-inn"  placeholder="123456789" 
@@ -137,8 +124,13 @@
 				
 				
 				<div class="form-group BLUE-field" style="position: relative">
-					<label>Креативный предприниматель?</label>
+					<label>Креативный предприниматель</label>
 					<input type="checkbox" name="PROPERTY[KREATIV]" <?if($_REQUEST['PROPERTY']['KREATIV']==57):?>checked<?endif?> value="Y">
+				</div>
+				
+				<div class="form-group BLUE-field" style="position: relative">
+					<label>Женское предпринимательство?</label>
+					<input type="checkbox" name="PROPERTY[WOMEN_BUSINESS]" <?if($_REQUEST['PROPERTY']['WOMEN_BUSINESS']==86):?>checked<?endif?> value="Y">
 				</div>
 				
 				
