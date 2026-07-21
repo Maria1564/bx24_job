@@ -47,6 +47,9 @@
 					<input class="form-check-input" type="checkbox" name="CLIENT_UNIQ" id="CLIENT_UNIQ" value="Y" <?= $_REQUEST['CLIENT_UNIQ'] == 'Y' ? 'checked' : '' ?>>
 					<label class="form-check-label" for="CLIENT_UNIQ">
 						Только уникальные клиенты
+						<span class="input-help-text">
+							Если у клиента несколько услуг в выбранном периоде, в списке останется только одна из них.
+						</span>
 					</label>
 				</div>
 				<div class="form-check">
@@ -54,7 +57,7 @@
 					<label class="form-check-label" for="CLIENT_UNIQ_2">
 						Только уникальные клиенты за текущий год
 						<span class="input-help-text">
-							Чтобы считать уникальными с начала года.
+							Показывает по одной услуге на каждого клиента, считая уникальность с начала текущего года.
 						</span>
 					</label>
 				</div>
@@ -62,6 +65,9 @@
 					<input class="form-check-input" type="checkbox" name="CLIENT_UNIQ_3" id="CLIENT_UNIQ_3" value="Y" <?= $_REQUEST['CLIENT_UNIQ_3'] == 'Y' ? 'checked' : '' ?>>
 					<label class="form-check-label" for="CLIENT_UNIQ_3">
 						Уникальный за период существования агентства
+						<span class="input-help-text">
+							Показывает только первую услугу клиента за весь период работы агентства.
+						</span>
 					</label>
 				</div>
 				<div class="form-check">
