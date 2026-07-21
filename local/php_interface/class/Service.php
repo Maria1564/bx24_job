@@ -44,7 +44,11 @@ public static function save($arInput) {
 	        $arLoadProductArray['PROPERTY_VALUES']['TYPE']['VALUE'] = Service::TYPE_SERVICE_ID;
 	    }
 		
-		$arLoadProductArray['PROPERTY_VALUES']['MONEY'] = preg_replace("/[^0-9]/","",$arLoadProductArray['PROPERTY_VALUES']['MONEY']);
+		foreach (['MONEY', 'MONEY2', 'MONEY3', 'REGIONAL_BUDGET', 'FEDERAL_BUDGET'] as $moneyCode) {
+			if (isset($arLoadProductArray['PROPERTY_VALUES'][$moneyCode])) {
+				$arLoadProductArray['PROPERTY_VALUES'][$moneyCode] = preg_replace("/[^0-9]/","",$arLoadProductArray['PROPERTY_VALUES'][$moneyCode]);
+			}
+		}
 		
 		$arLoadProductArray['IBLOCK_ID'] = IBLOCK_ID_SERVICE;
 		$arLoadProductArray['ACTIVE'] = "Y";

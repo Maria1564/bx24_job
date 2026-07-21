@@ -3,7 +3,6 @@
 //	l($_REQUEST['PROPERTY']['DIRECTION_SERVICE']);
 ?>
 <div class="form-section form-section-direction row">
-	<input type="hidden" name="PROPERTY[DIRECTION]" value="SD">
 	<div class="form-group col-md-12" >
 		
 		<?
@@ -16,7 +15,6 @@
 			<?foreach($arResult['DIRECTION_SERVICES'] as $ar0):?>
 			<?foreach($ar0 as $ar):?>
 			<option
-			data-direction="<?=$ar['PROPERTY_DIRECTION_VALUE']?>" 
 			data-is_show_input="<?=$ar['PROPERTY_IS_SHOW_INPUT_VALUE']?>"
 			value="<?=$ar['ID']?>" 
 			<?=$ar['ID']== $_REQUEST['PROPERTY']['DIRECTION_SERVICE']?'selected':''?>><?=$ar['NAME']?></option>

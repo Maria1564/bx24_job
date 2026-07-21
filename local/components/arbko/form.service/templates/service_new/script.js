@@ -1,6 +1,4 @@
 var inputTextTemplate = '';
-var serviceDirection = 'SD';
-
 //
 function formInit(){
 	console.log('...formInit...');
@@ -13,7 +11,7 @@ function formInit(){
 		//Теперь из названия услуги нужно получить текст кастомной части.
 		let service = $("select[name='PROPERTY[DIRECTION_SERVICE]'] option:selected").text();
 		inputTextTemplate = service;
-		let legacyInputTextTemplate = serviceDirection + ' — ' + service;
+		let legacyInputTextTemplate = 'SD — ' + service;
 		console.log(inputTextTemplate);
 		let serviceName = $("input[name='NAME']").val();
 		let customText = serviceName.replace(legacyInputTextTemplate,"").replace(inputTextTemplate,"").trim();
@@ -61,22 +59,12 @@ $(document).ready(function () {
 
 function selectDirectionEvent(unsetDirectionVal = false){
 	console.log('...selectDirectionEvent...');
-	let val = serviceDirection;
-	console.log(val);
 	if(!unsetDirectionVal){
 		$("select[name='PROPERTY[DIRECTION_SERVICE]").val("");
 		$('#SERVICE_CUSTOM_NAME').hide();
 	}
-	
-	$("#DIRECTION_SERVICE").find('option').hide();
-	
-	$("#DIRECTION_SERVICE option").each(function(){
-		let direction = $(this).data('direction')		
-		console.log(direction);
-		if(direction === val){
-			$(this).show();		
-		}
-	});
+
+	$("#DIRECTION_SERVICE").find('option').show();
 	if(!unsetDirectionVal){
 	    generateServiceName();
 		

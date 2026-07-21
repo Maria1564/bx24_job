@@ -6,13 +6,25 @@
 	
 	
 	function getServices(){
-		$arServices =  getIBlockItems(6,[],['IBLOCK_ID','ID','NAME','PROPERTY_DIRECTION','PROPERTY_IS_SHOW_INPUT']);
+		$sdServiceIds = [
+			9022,
+			10120,
+			8227,
+			32557,
+			8229,
+			8222,
+			8224,
+			8225,
+			8226,
+			8223,
+			8230,
+			8221,
+			8220,
+		];
+		$arServices =  getIBlockItems(6,['ID' => $sdServiceIds],['IBLOCK_ID','ID','NAME','PROPERTY_IS_SHOW_INPUT']);
 		$arResult = [];
 		foreach($arServices as $arr){
-			if ($arr['PROPERTY_DIRECTION_VALUE'] != 'SD') {
-				continue;
-			}
-			$arResult[$arr['PROPERTY_DIRECTION_VALUE']][] =  clearFileds($arr);
+			$arResult['SD'][] =  clearFileds($arr);
 		}
 		return $arResult; 
 		
