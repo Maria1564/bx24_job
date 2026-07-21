@@ -23,7 +23,6 @@
     <? endif ?>
     <? if (!$arResult["CLIENT"]): ?>
 	<div class="row">
-		<div class="col-md-5"> <a  onclick="popupSelectClientFromBX24()">Выбрать клиента из битрикс 24</a></div>  
 		
 	</div>
     <? endif ?>
