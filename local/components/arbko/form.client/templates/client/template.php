@@ -4,6 +4,7 @@
 		* РЕДАКТИРОВАНИЕ КЛИЕНТА
 	*/
 	$arIndustry = Helper::getOrgIndustry();
+	$arIndustrialSectors = Helper::getIndustrialSectors();
 //	l($arResult['CLIENT']);
 ?>
 <div class="add-form-wrapper" style="width:100%;max-width: 100%">
@@ -162,6 +163,26 @@
 							<? endforeach ?>
 						</select>	   
 					</div>
+				</div>
+				
+				<?
+					$arSelectedIndustrialSectors = (array)$_REQUEST['PROPERTY']['INDUSTRIAL_SECTORS'];
+					$arSelectedIndustrialSectors = array_map('intval', $arSelectedIndustrialSectors);
+				?>
+				<div class="form-group">
+					<label>Отрасли промышленности</label>
+					<input type="hidden" name="PROPERTY[INDUSTRIAL_SECTORS][]" value="">
+					<div class="multi-dropdown js-industrial-sectors-dropdown">
+						<button type="button" class="form-control multi-dropdown__toggle">Выберите отрасли</button>
+						<div class="multi-dropdown__menu">
+							<? foreach ($arIndustrialSectors as $id => $name): ?> 
+							<label class="multi-dropdown__option">
+								<input type="checkbox" name="PROPERTY[INDUSTRIAL_SECTORS][]" value="<?= $id ?>" <?= in_array((int)$id, $arSelectedIndustrialSectors) ? 'checked' : '' ?>>
+								<span><?= $name ?></span>
+							</label>
+							<? endforeach ?>
+						</div>
+					</div>	   
 				</div>
 				
 				<? include '_contacts.php'?>

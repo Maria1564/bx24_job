@@ -100,6 +100,7 @@
 	
 	}
 	$arIndustry = Helper::getOrgIndustry();
+	$arIndustrialSectors = Helper::getIndustrialSectors();
 //	l($arIndustry);
 //	l($arResult['PROPERTIES']['INDUSTRY']);
 	?>
@@ -118,6 +119,17 @@
 	
 	<? if (strlen($arResult['PROPERTIES']['INDUSTRY']['VALUE']) !=""): ?>
 		<li>Реальная деятельность: <?= $arIndustry[$arResult['PROPERTIES']['INDUSTRY']['VALUE']] ?></li>
+	<? endif ?>
+	<?
+		$arSelectedIndustrialSectors = [];
+		foreach ((array)$arResult['PROPERTIES']['INDUSTRIAL_SECTORS']['VALUE'] as $sectorId) {
+			if ($arIndustrialSectors[$sectorId]) {
+				$arSelectedIndustrialSectors[] = $arIndustrialSectors[$sectorId];
+			}
+		}
+	?>
+	<? if (count($arSelectedIndustrialSectors) > 0): ?>
+		<li>Отрасли промышленности: <?= implode(', ', $arSelectedIndustrialSectors) ?></li>
 	<? endif ?>
 	<? if (strlen($arResult['PROPERTIES']['MSP_TYPE']['VALUE']) !=""): ?>
 		<li>Категория МСП: <?=$arResult['PROPERTIES']['MSP_TYPE']['VALUE_ENUM']?></li>

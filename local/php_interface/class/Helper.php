@@ -236,6 +236,35 @@
 			return $arReturn;
 			}
 			
+			public static function getIndustrialSectors($asArray = false) {
+			$cache = new CPHPCache();
+			$cache_time = 36000;
+			$cache_id = "IBLOCK_CODE_industrial_sectors" . ($asArray ? 'array' : '');
+			$cache_path = "getIndustrialSectors_" . ($asArray ? 'array' : '');
+			if ($cache_time > 0 && $cache->InitCache($cache_time, $cache_id, $cache_path)) {
+			$res = $cache->GetVars();
+			if (is_array($res["data"]) && (count($res["data"]) > 0))
+			return $res["data"];
+			}
+			CModule::IncludeModule('iblock');
+			$iblock = CIBlock::GetList([], ['CODE' => 'industrial_sectors', 'ACTIVE' => 'Y'])->Fetch();
+			if (!$iblock) {
+			return [];
+			}
+			$filter = ['IBLOCK_ID' => $iblock['ID'], 'ACTIVE' => 'Y'];
+			$rsItems = CIBlockElement::GetList(['SORT' => 'ASC', 'NAME' => 'ASC'], $filter, false, false, ["IBLOCK_ID", 'ID', "NAME", "CODE"]);
+			while ($arItem = $rsItems->GetNext()) {
+			if ($asArray) {
+			$arReturn[$arItem['ID']] = $arItem;
+			} else {
+			$arReturn[$arItem['ID']] = $arItem['NAME'];
+			}
+			}
+			$cache->StartDataCache($cache_time, $cache_id, $cache_path);
+			$cache->EndDataCache(["data" => $arReturn]);
+			return $arReturn;
+			}
+			
 			public static function getManagers() {
 			$result = \Bitrix\Main\UserGroupTable::getList(array(
 			'filter' => array('GROUP_ID' => [1, MANAGERS_GROUP_ID], 'USER.ACTIVE' => 'Y'),

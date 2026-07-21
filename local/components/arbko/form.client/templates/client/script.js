@@ -42,6 +42,7 @@ $(document).ready(function () {
 	
 	
     $('.fiz-ur-link.active').click();
+    initIndustrialSectorsDropdown();
     var myEfficientFn = debounce(function () {
         if (userType === 'fiz')
             return false;
@@ -66,6 +67,38 @@ $(document).ready(function () {
         }
     });
 });
+
+function initIndustrialSectorsDropdown() {
+	var $dropdown = $('.js-industrial-sectors-dropdown');
+	if (!$dropdown.length) {
+		return;
+	}
+
+	var $toggle = $dropdown.find('.multi-dropdown__toggle');
+	var $checks = $dropdown.find('input[type="checkbox"]');
+
+	function updateText() {
+		var names = [];
+		$checks.filter(':checked').each(function () {
+			names.push($(this).closest('.multi-dropdown__option').find('span').text());
+		});
+		$toggle.text(names.length ? names.join(', ') : 'Выберите отрасли');
+	}
+
+	$toggle.on('click', function () {
+		$dropdown.toggleClass('open');
+	});
+
+	$checks.on('change', updateText);
+
+	$(document).on('click', function (event) {
+		if (!$dropdown.is(event.target) && $dropdown.has(event.target).length === 0) {
+			$dropdown.removeClass('open');
+		}
+	});
+
+	updateText();
+}
 
 function makeLIst(result) {
     $(searchResult).show();
