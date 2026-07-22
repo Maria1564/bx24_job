@@ -12,7 +12,10 @@ $(document).ready(function () {
     });*/
 	
 	
-	$('.input-phone-mask').mask('+7 (999) 999-99-99');
+    $('.input-phone-mask').mask('+7 (999) 999-99-99');
+    $('.input-TNVED').on('input', function () {
+        this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
 	
 	
 	const inputs = document.querySelectorAll(".input-phone-mask-new");

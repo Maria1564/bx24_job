@@ -30,7 +30,7 @@
 
 		<div class="col-12 col-md-3 form-group fiz-hide">
 			<label>Код ТН ВЭД</label>
-			<input type="text" class="form-control" name="PROPERTY[TNVED]" placeholder="9403"
+			<input type="text" class="form-control input-TNVED" name="PROPERTY[TNVED]" placeholder="9403601000" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" title="Введите 10 цифр кода ТН ВЭД"
 			value="<?= $_REQUEST['PROPERTY']['TNVED'] != '' ? $_REQUEST['PROPERTY']['TNVED'] : '' ?>" >
 			<small id="emailHelp" class="form-text text-muted"></small>
 		</div>

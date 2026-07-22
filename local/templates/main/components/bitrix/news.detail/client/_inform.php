@@ -93,6 +93,9 @@
 	<? if (strlen($arResult['PROPERTIES']['OKVED']['VALUE']) !=""): ?>
 		<li>ОКВЭД: <?= $arResult['PROPERTIES']['OKVED']['VALUE'] ?></li>
 	<? endif ?>
+	<? if (strlen($arResult['PROPERTIES']['TNVED']['VALUE']) !=""): ?>
+		<li>Код ТН ВЭД: <?= $arResult['PROPERTIES']['TNVED']['VALUE'] ?></li>
+	<? endif ?>
 	
 	<? if (strlen($arResult['PROPERTIES']['INDUSTRY']['VALUE']) !=""): ?>
 		<li>Реальная деятельность: <?= $arIndustry[$arResult['PROPERTIES']['INDUSTRY']['VALUE']] ?></li>
