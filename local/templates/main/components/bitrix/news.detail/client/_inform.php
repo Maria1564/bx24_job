@@ -78,6 +78,7 @@
 	$contactsArr = Contact::getClientContacts($arResult['ID']);
 	$arIndustry = Helper::getOrgIndustry();
 	$arIndustrialSectors = Helper::getIndustrialSectors();
+	$arExportCountries = Helper::getExportCountries();
 //	l($arIndustry);
 //	l($arResult['PROPERTIES']['INDUSTRY']);
 	?>
@@ -110,6 +111,17 @@
 	?>
 	<? if (count($arSelectedIndustrialSectors) > 0): ?>
 		<li>Отрасли промышленности: <?= implode(', ', $arSelectedIndustrialSectors) ?></li>
+	<? endif ?>
+	<?
+		$arSelectedExportCountries = [];
+		foreach ((array)$arResult['PROPERTIES']['EXPORT_COUNTRIES']['VALUE'] as $countryId) {
+			if ($arExportCountries[$countryId]) {
+				$arSelectedExportCountries[] = $arExportCountries[$countryId];
+			}
+		}
+	?>
+	<? if (count($arSelectedExportCountries) > 0): ?>
+		<li>Страны экспорта: <?= implode(', ', $arSelectedExportCountries) ?></li>
 	<? endif ?>
 	<? if (strlen($arResult['PROPERTIES']['MSP_TYPE']['VALUE']) !=""): ?>
 		<li>Категория МСП: <?=$arResult['PROPERTIES']['MSP_TYPE']['VALUE_ENUM']?></li>
