@@ -98,6 +98,7 @@
 				id="KREATIV" 
 				name='PROP[KREATIV][]' 
 				value="57"
+				<?= in_array('57', (array)($_REQUEST['PROP']['KREATIV'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="KREATIV">
 					Креативный предприниматель
@@ -111,9 +112,24 @@
 				id="WOMEN_BUSINESS" 
 				name='PROP[WOMEN_BUSINESS][]' 
 				value="86"
+				<?= in_array('86', (array)($_REQUEST['PROP']['WOMEN_BUSINESS'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="WOMEN_BUSINESS">
 					Женское предпринимательство?
+				</label>
+			</div>
+
+			<div class="form-check">
+				<input 
+				class="form-check-input" 
+				type="checkbox"  
+				id="OUTBOUND_TOURISM" 
+				name='PROP[OUTBOUND_TOURISM][]' 
+				value="87"
+				<?= in_array('87', (array)($_REQUEST['PROP']['OUTBOUND_TOURISM'] ?? [])) ? 'checked' : '' ?>
+				>
+				<label style="display: inline;" class="form-check-label" for="OUTBOUND_TOURISM">
+					Выездной туризм
 				</label>
 			</div>
 			

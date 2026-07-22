@@ -153,6 +153,13 @@ class Client {
 		else{
 			$arInput['PROPERTY']['WOMEN_BUSINESS'] = 0;
 		}
+
+		if($arInput['PROPERTY']['OUTBOUND_TOURISM']=="Y"){ // чекбокс Выездной туризм
+			$arInput['PROPERTY']['OUTBOUND_TOURISM'] = 87;
+		}
+		else{
+			$arInput['PROPERTY']['OUTBOUND_TOURISM'] = 0;
+		}
 		
 
 		if($arInput['PROPERTY']['SX']=="Y"){ // чекбокс голубой клиент?
