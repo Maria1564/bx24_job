@@ -146,6 +146,19 @@
 					<? endforeach ?>
 				</select>
 			</div>
+			<?if(!$isConsultPage):?>
+			<div class="form-group">
+				<label>Виды услуг</label>
+				<select class="form-control" name="PROP[DIRECTION_SERVICE]">
+					<option value="">Все</option>
+					<? foreach ($arDirectionServices as $arDirectionService): ?>
+					<option value="<?= $arDirectionService['ID'] ?>" <?= ($_REQUEST['PROP']['DIRECTION_SERVICE'] ?? '') == $arDirectionService['ID'] ? 'selected' : '' ?>>
+						<?= $arDirectionService['NAME'] ?>
+					</option>
+					<? endforeach ?>
+				</select>
+			</div>
+			<?endif?>
 		</div>
 		<div class="col-md-2">
 			<div style="margin-top: 50px;">

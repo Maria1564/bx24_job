@@ -61,6 +61,7 @@
 	
 	foreach ($_REQUEST['PROP'] as $code => $value)
 	{
+		if ($isConsultPage && $code == "DIRECTION_SERVICE") continue;
 		if (in_array($code, ["DIRECTION", "MANAGER", "FINANCE_SOURCE", "INDUSTRIAL_SECTORS", "CLIENT"])) continue;
 		if ($value == "") continue;
 		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
@@ -106,4 +107,26 @@
 	$arManagers = Helper::getManagersExt();
 	$arIndustrialSectors = Helper::getIndustrialSectors();
 	$arDirections = Helper::getDirections();
+	$arDirectionServices = [];
+	if (!$isConsultPage) {
+		$sdServiceIds = [
+			9022,
+			10120,
+			8227,
+			32557,
+			8229,
+			8222,
+			8224,
+			8225,
+			8226,
+			8223,
+			8230,
+			8221,
+			8220,
+		];
+		$arDirectionServiceItems = getIBlockItems(6, ['ID' => $sdServiceIds], ['IBLOCK_ID', 'ID', 'NAME']);
+		foreach ($arDirectionServiceItems as $arDirectionServiceItem) {
+			$arDirectionServices[] = clearFileds($arDirectionServiceItem);
+		}
+	}
 	
