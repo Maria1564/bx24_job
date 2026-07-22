@@ -56,8 +56,56 @@
 		******************************************************************************************
 	    Создаем фильтр из параметров типа ['PROP']['PARAM_NAME'] = VALUE
 	*/
+	if (!function_exists('applyServicesAllClientIdsFilter')) {
+		function applyServicesAllClientIdsFilter($filterName, $clientIds) {
+			$clientIds = array_values(array_unique(array_filter(array_map('intval', (array)$clientIds))));
+			if (empty($clientIds)) {
+				$GLOBALS[$filterName]['ID'] = 0;
+				return;
+			}
+			if (!empty($GLOBALS[$filterName]['PROPERTY_CLIENT']) && is_array($GLOBALS[$filterName]['PROPERTY_CLIENT'])) {
+				$clientIds = array_values(array_intersect($GLOBALS[$filterName]['PROPERTY_CLIENT'], $clientIds));
+				if (empty($clientIds)) {
+					$GLOBALS[$filterName]['ID'] = 0;
+					return;
+				}
+				$GLOBALS[$filterName]['PROPERTY_CLIENT'] = $clientIds;
+				return;
+			}
+			if (!empty($GLOBALS[$filterName]['PROPERTY_CLIENT']) && is_numeric($GLOBALS[$filterName]['PROPERTY_CLIENT'])) {
+				if (!in_array((int)$GLOBALS[$filterName]['PROPERTY_CLIENT'], $clientIds)) {
+					$GLOBALS[$filterName]['ID'] = 0;
+					return;
+				}
+				$GLOBALS[$filterName]['PROPERTY_CLIENT'] = (int)$GLOBALS[$filterName]['PROPERTY_CLIENT'];
+				return;
+			}
+			$GLOBALS[$filterName]['PROPERTY_CLIENT'] = $clientIds;
+		}
+	}
+
+	if (!empty($_REQUEST['PROP']['INDUSTRIAL_SECTORS'])) {
+		$arClientsByIndustrialSector = [];
+		$arFilter = [
+			'IBLOCK_ID' => IBLOCK_ID_CLIENT,
+			'ACTIVE' => 'Y',
+			'PROPERTY_INDUSTRIAL_SECTORS' => $_REQUEST['PROP']['INDUSTRIAL_SECTORS'],
+		];
+		$res = CIBlockElement::GetList([], $arFilter, false, false, ['ID']);
+		while ($ob = $res->GetNextElement()) {
+			$fields = $ob->GetFields();
+			$arClientsByIndustrialSector[] = $fields['ID'];
+		}
+		applyServicesAllClientIdsFilter($arParams["FILTER_NAME"], $arClientsByIndustrialSector);
+	}
+
+	if (!empty($_REQUEST['PROP']['CLIENT'])) {
+		applyServicesAllClientIdsFilter($arParams["FILTER_NAME"], [$_REQUEST['PROP']['CLIENT']]);
+	}
+
 	foreach ($_REQUEST['PROP'] as $code => $value)
 	{
+		if (in_array($code, ['INDUSTRIAL_SECTORS', 'CLIENT'])) continue;
 		if ($value == "") continue;
 		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
 	}
@@ -69,6 +117,7 @@
 	//l($_REQUEST);
 //	$arClients = Client::getClients();
 	$arManagers = Helper::getManagersExt();
+	$arIndustrialSectors = Helper::getIndustrialSectors();
 	$arDirections = Helper::getDirections();
 	//$arDEPARTMENT = Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'DEPARTMENT');
 	

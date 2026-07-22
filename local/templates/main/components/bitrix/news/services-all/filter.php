@@ -137,6 +137,18 @@
 	</div>
 
 	<div class="col-md-2">
+	    <div class="form-group">
+		<label>Отрасль промышленности</label>
+		<select class="form-control" name="PROP[INDUSTRIAL_SECTORS]" onchange="filterGetData()">
+		    <option value="">Все</option>
+		    <? foreach ($arIndustrialSectors as $id => $name): ?>
+		    <option value="<?= $id ?>" <?= $_REQUEST['PROP']['INDUSTRIAL_SECTORS'] == $id ? 'selected' : '' ?>>
+			<?= $name ?>
+		    </option>
+		    <? endforeach ?>
+		</select>
+	    </div>
+
 	    <div style="margin-top: 50px;">
 
 		<button type="button" onclick="filterGetData()" class="btn btn-success btn-sm" >Фильтровать</button>
