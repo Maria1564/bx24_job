@@ -146,6 +146,20 @@
 					АПК
 				</label>
 			</div>
+
+			<div class="form-check">
+				<input 
+				class="form-check-input" 
+				type="checkbox"  
+				id="ACTIVE_EXPORTER" 
+				name='PROP[ACTIVE_EXPORTER][]' 
+				value="89"
+				<?= in_array('89', (array)($_REQUEST['PROP']['ACTIVE_EXPORTER'] ?? [])) ? 'checked' : '' ?>
+				>
+				<label style="display: inline;" class="form-check-label" for="ACTIVE_EXPORTER">
+					Действующий экспортер
+				</label>
+			</div>
 			
 			
 		</div>

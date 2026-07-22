@@ -167,6 +167,13 @@ class Client {
 		else{
 			$arInput['PROPERTY']['APK'] = 0;
 		}
+
+		if($arInput['PROPERTY']['ACTIVE_EXPORTER']=="Y"){ // чекбокс Действующий экспортер
+			$arInput['PROPERTY']['ACTIVE_EXPORTER'] = 89;
+		}
+		else{
+			$arInput['PROPERTY']['ACTIVE_EXPORTER'] = 0;
+		}
 		
 
 		if($arInput['PROPERTY']['SX']=="Y"){ // чекбокс голубой клиент?

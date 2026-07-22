@@ -27,6 +27,13 @@
 			value="<?= $_REQUEST['PROPERTY']['OKVED'] != '' ? $_REQUEST['PROPERTY']['OKVED'] : '' ?>" >
 			<small id="emailHelp" class="form-text text-muted"></small>
 		</div>
+
+		<div class="col-12 col-md-3 form-group fiz-hide">
+			<label>Код ТН ВЭД</label>
+			<input type="text" class="form-control" name="PROPERTY[TNVED]" placeholder="9403"
+			value="<?= $_REQUEST['PROPERTY']['TNVED'] != '' ? $_REQUEST['PROPERTY']['TNVED'] : '' ?>" >
+			<small id="emailHelp" class="form-text text-muted"></small>
+		</div>
 		
 		<?
 			$arMSP_TYPE = Helper::getListValue(Client::CLIENT_IBLOCK_ID, 'MSP_TYPE');

@@ -143,6 +143,11 @@
 					<label>АПК</label>
 					<input type="checkbox" name="PROPERTY[APK]" <?if($_REQUEST['PROPERTY']['APK']==88):?>checked<?endif?> value="Y">
 				</div>
+
+				<div class="form-group BLUE-field" style="position: relative">
+					<label>Действующий экспортер</label>
+					<input type="checkbox" name="PROPERTY[ACTIVE_EXPORTER]" <?if($_REQUEST['PROPERTY']['ACTIVE_EXPORTER']==89):?>checked<?endif?> value="Y">
+				</div>
 				
 				
 				<? include '_org-info.php'?>
