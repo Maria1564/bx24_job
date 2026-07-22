@@ -42,6 +42,7 @@
 			$arLoadProductArray['CODE'] = $ELEMENT_CODE ;
 			$arLoadProductArray['PROPERTY_VALUES']['EMAIL'] = $arInput['EMAIL'];
 			$arLoadProductArray['PROPERTY_VALUES']['CLIENT'] = $CLIENT_ID;
+			$arLoadProductArray['PROPERTY_VALUES']['POST'] = $arInput['POST'] ?? '';
 			l($arLoadProductArray);
 			if (!$arItem) {
 				$newRecord = "Y";
@@ -108,6 +109,7 @@
 				"ID"=>$arFields['ID'],
 				"NAME"=>$arFields['NAME'],
 				"PREVIEW_TEXT"=>$arFields['PREVIEW_TEXT'],
+				"POST"=>$arProps['POST']['VALUE'] ?: $arFields['PREVIEW_TEXT'],
 				"PHONE"=>$arFields['CODE'],
 				"EMAIL"=>$arProps['EMAIL']['VALUE'],
 				"CLIENT"=>$arProps['CLIENT']['VALUE'],
@@ -162,6 +164,7 @@
 				"ID"=>$arFields['ID'],
 				"NAME"=>$arFields['NAME'],
 				"PREVIEW_TEXT"=>$arFields['PREVIEW_TEXT'],
+				"POST"=>$arProps['POST']['VALUE'] ?: $arFields['PREVIEW_TEXT'],
 				"PHONE"=>$arFields['CODE'],
 				"EMAIL"=>$arProps['EMAIL']['VALUE'],
 				"CLIENT"=>$arProps['CLIENT']['VALUE'],

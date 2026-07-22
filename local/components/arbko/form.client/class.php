@@ -92,6 +92,7 @@ class ServiceListComponent extends CBitrixComponent {
 			  "NAME"=>$name,
 			  "ACTIVE"=>$_REQUEST['CONTACT']['ACTIVE'][$i],
 			  "PREVIEW_TEXT"=>$_REQUEST['CONTACT']['PREVIEW_TEXT'][$i],
+			  "POST"=>$_REQUEST['CONTACT']['POST'][$i] ?? '',
 			  "PHONE"=>$_REQUEST['CONTACT']['PHONE'][$i],
 			  "EMAIL"=>$_REQUEST['CONTACT']['EMAIL'][$i],
 			  "CLIENT"=>$arResutl['ID'],

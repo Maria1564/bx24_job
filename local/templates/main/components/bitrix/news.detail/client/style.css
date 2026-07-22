@@ -30,6 +30,32 @@
 .client-service-filter {    margin-top: 15px;}
 .client-service-filter label {    font-size: 13px;
     margin-right: 18px;}
+.client-contacts-table-wrap {
+    margin-top: 18px;
+    max-width: 620px;
+}
+.client-contacts-table-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.client-contacts-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.client-contacts-table th,
+.client-contacts-table td {
+    border: 1px solid #ddd;
+    padding: 7px 9px;
+    vertical-align: top;
+}
+.client-contacts-table th {
+    background: #f3f3f3;
+    font-weight: bold;
+}
+.client-contacts-table tbody tr:nth-child(even) td {
+    background: #fafafa;
+}
 	.item-summa-wrap {}
 	.item-summa-wrap  span{ display:block;margin-top:-3px;}
 	.item-summa-wrap  span desc {color:#7d7b7b}

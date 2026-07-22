@@ -74,31 +74,8 @@
 	<p style="color:#42aaff;margin-top:10px;">Общепит</p>
 <?endif?>
 
-	
 	<?
 	$contactsArr = Contact::getClientContacts($arResult['ID']);
-	if($contactsArr){
-	?>
-	<div class="clent-contact-wrap">
-	<h2>Дополнительные контакты</h2>
-	
-	  <?foreach($contactsArr as $contact):?>
-	 <div>
-	 <?= $contact['NAME'] ?>,
-	 <?if($contact['PREVIEW_TEXT']):?>
-	  <?= $contact['PREVIEW_TEXT']?>,
-	 <?endif?>
-	 <?= $contact['PHONE']?>
-	 <?if($contact['EMAIL']):?>
-	 , <?= $contact['EMAIL']?>
-	 <?endif?>
-	</div>
-	  <?endforeach?>
-	</div>
-	  <?
-	
-	
-	}
 	$arIndustry = Helper::getOrgIndustry();
 	$arIndustrialSectors = Helper::getIndustrialSectors();
 //	l($arIndustry);
@@ -153,6 +130,32 @@
 	<? endforeach ?>
 
     </ul>
+
+	<?if($contactsArr):?>
+	<div class="client-contacts-table-wrap">
+		<div class="client-contacts-table-title">Контактные лица</div>
+		<table class="client-contacts-table">
+			<thead>
+				<tr>
+					<th>Имя</th>
+					<th>Телефон</th>
+					<th>Почта</th>
+					<th>Должность</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?foreach($contactsArr as $contact):?>
+				<tr>
+					<td><?= $contact['NAME'] ?></td>
+					<td><?= $contact['PHONE'] ?></td>
+					<td><?= $contact['EMAIL'] ?></td>
+					<td><?= $contact['POST'] ?></td>
+				</tr>
+				<?endforeach?>
+			</tbody>
+		</table>
+	</div>
+	<?endif?>
 
 </div>
 <? //l($arResult['PROPERTIES']['REVENUE']) ?>
