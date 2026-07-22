@@ -115,7 +115,7 @@
 				<?= in_array('86', (array)($_REQUEST['PROP']['WOMEN_BUSINESS'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="WOMEN_BUSINESS">
-					Женское предпринимательство?
+					Женское предпринимательство
 				</label>
 			</div>
 
@@ -130,6 +130,20 @@
 				>
 				<label style="display: inline;" class="form-check-label" for="OUTBOUND_TOURISM">
 					Выездной туризм
+				</label>
+			</div>
+
+			<div class="form-check">
+				<input 
+				class="form-check-input" 
+				type="checkbox"  
+				id="APK" 
+				name='PROP[APK][]' 
+				value="88"
+				<?= in_array('88', (array)($_REQUEST['PROP']['APK'] ?? [])) ? 'checked' : '' ?>
+				>
+				<label style="display: inline;" class="form-check-label" for="APK">
+					АПК
 				</label>
 			</div>
 			

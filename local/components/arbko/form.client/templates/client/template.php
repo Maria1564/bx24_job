@@ -130,13 +130,18 @@
 				</div>
 				
 				<div class="form-group BLUE-field" style="position: relative">
-					<label>Женское предпринимательство?</label>
+					<label>Женское предпринимательство</label>
 					<input type="checkbox" name="PROPERTY[WOMEN_BUSINESS]" <?if($_REQUEST['PROPERTY']['WOMEN_BUSINESS']==86):?>checked<?endif?> value="Y">
 				</div>
 
 				<div class="form-group BLUE-field" style="position: relative">
 					<label>Выездной туризм</label>
 					<input type="checkbox" name="PROPERTY[OUTBOUND_TOURISM]" <?if($_REQUEST['PROPERTY']['OUTBOUND_TOURISM']==87):?>checked<?endif?> value="Y">
+				</div>
+
+				<div class="form-group BLUE-field" style="position: relative">
+					<label>АПК</label>
+					<input type="checkbox" name="PROPERTY[APK]" <?if($_REQUEST['PROPERTY']['APK']==88):?>checked<?endif?> value="Y">
 				</div>
 				
 				

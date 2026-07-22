@@ -147,7 +147,7 @@ class Client {
 			$arInput['PROPERTY']['KREATIV'] = 0;
 		}
 		
-		if($arInput['PROPERTY']['WOMEN_BUSINESS']=="Y"){ // чекбокс Женское предпринимательство?
+		if($arInput['PROPERTY']['WOMEN_BUSINESS']=="Y"){ // чекбокс Женское предпринимательство
 			$arInput['PROPERTY']['WOMEN_BUSINESS'] = 86;
 		}
 		else{
@@ -159,6 +159,13 @@ class Client {
 		}
 		else{
 			$arInput['PROPERTY']['OUTBOUND_TOURISM'] = 0;
+		}
+
+		if($arInput['PROPERTY']['APK']=="Y"){ // чекбокс АПК
+			$arInput['PROPERTY']['APK'] = 88;
+		}
+		else{
+			$arInput['PROPERTY']['APK'] = 0;
 		}
 		
 
