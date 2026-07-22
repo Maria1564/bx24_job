@@ -5,6 +5,7 @@
 	*/
 	$arIndustry = Helper::getOrgIndustry();
 	$arIndustrialSectors = Helper::getIndustrialSectors();
+	$arExportCountries = Helper::getExportCountries();
 //	l($arResult['CLIENT']);
 ?>
 <div class="add-form-wrapper" style="width:100%;max-width: 100%">
@@ -194,6 +195,26 @@
 							<? foreach ($arIndustrialSectors as $id => $name): ?> 
 							<label class="multi-dropdown__option">
 								<input type="checkbox" name="PROPERTY[INDUSTRIAL_SECTORS][]" value="<?= $id ?>" <?= in_array((int)$id, $arSelectedIndustrialSectors) ? 'checked' : '' ?>>
+								<span><?= $name ?></span>
+							</label>
+							<? endforeach ?>
+						</div>
+					</div>	   
+				</div>
+
+				<?
+					$arSelectedExportCountries = (array)$_REQUEST['PROPERTY']['EXPORT_COUNTRIES'];
+					$arSelectedExportCountries = array_map('intval', $arSelectedExportCountries);
+				?>
+				<div class="form-group">
+					<label>Страны экспорта</label>
+					<input type="hidden" name="PROPERTY[EXPORT_COUNTRIES][]" value="">
+					<div class="multi-dropdown js-export-countries-dropdown" data-empty-text="Выберите страны">
+						<button type="button" class="form-control multi-dropdown__toggle">Выберите страны</button>
+						<div class="multi-dropdown__menu">
+							<? foreach ($arExportCountries as $id => $name): ?> 
+							<label class="multi-dropdown__option">
+								<input type="checkbox" name="PROPERTY[EXPORT_COUNTRIES][]" value="<?= $id ?>" <?= in_array((int)$id, $arSelectedExportCountries) ? 'checked' : '' ?>>
 								<span><?= $name ?></span>
 							</label>
 							<? endforeach ?>

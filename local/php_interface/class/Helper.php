@@ -264,6 +264,35 @@
 			$cache->EndDataCache(["data" => $arReturn]);
 			return $arReturn;
 			}
+
+			public static function getExportCountries($asArray = false) {
+			$cache = new CPHPCache();
+			$cache_time = 36000;
+			$cache_id = "IBLOCK_CODE_export_countries" . ($asArray ? 'array' : '');
+			$cache_path = "getExportCountries_" . ($asArray ? 'array' : '');
+			if ($cache_time > 0 && $cache->InitCache($cache_time, $cache_id, $cache_path)) {
+			$res = $cache->GetVars();
+			if (is_array($res["data"]) && (count($res["data"]) > 0))
+			return $res["data"];
+			}
+			CModule::IncludeModule('iblock');
+			$iblock = CIBlock::GetList([], ['CODE' => 'export_countries', 'ACTIVE' => 'Y'])->Fetch();
+			if (!$iblock) {
+			return [];
+			}
+			$filter = ['IBLOCK_ID' => $iblock['ID'], 'ACTIVE' => 'Y'];
+			$rsItems = CIBlockElement::GetList(['NAME' => 'ASC'], $filter, false, false, ["IBLOCK_ID", 'ID', "NAME", "CODE"]);
+			while ($arItem = $rsItems->GetNext()) {
+			if ($asArray) {
+			$arReturn[$arItem['ID']] = $arItem;
+			} else {
+			$arReturn[$arItem['ID']] = $arItem['NAME'];
+			}
+			}
+			$cache->StartDataCache($cache_time, $cache_id, $cache_path);
+			$cache->EndDataCache(["data" => $arReturn]);
+			return $arReturn;
+			}
 			
 			public static function getManagers() {
 			$result = \Bitrix\Main\UserGroupTable::getList(array(

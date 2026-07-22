@@ -42,7 +42,7 @@ $(document).ready(function () {
 	
 	
     $('.fiz-ur-link.active').click();
-    initIndustrialSectorsDropdown();
+    initMultiDropdowns();
     var myEfficientFn = debounce(function () {
         if (userType === 'fiz')
             return false;
@@ -68,38 +68,42 @@ $(document).ready(function () {
     });
 });
 
-function initIndustrialSectorsDropdown() {
-	var $dropdown = $('.js-industrial-sectors-dropdown');
-	if (!$dropdown.length) {
-		return;
-	}
+function initMultiDropdowns() {
+	$('.multi-dropdown').each(function () {
+		var $dropdown = $(this);
+		var $toggle = $dropdown.find('.multi-dropdown__toggle');
+		var $checks = $dropdown.find('input[type="checkbox"]');
+		var $requiredInput = $dropdown.closest('.form-group').find('.js-industrial-sectors-required');
+		var emptyText = $dropdown.data('empty-text') || $toggle.text();
 
-	var $toggle = $dropdown.find('.multi-dropdown__toggle');
-	var $checks = $dropdown.find('input[type="checkbox"]');
-	var $requiredInput = $('.js-industrial-sectors-required');
+		function updateText() {
+			var names = [];
+			$checks.filter(':checked').each(function () {
+				names.push($(this).closest('.multi-dropdown__option').find('span').text());
+			});
+			$toggle.text(names.length ? names.join(', ') : emptyText);
+			if ($requiredInput.length) {
+				$requiredInput.val(names.length ? 'Y' : '');
+			}
+		}
 
-	function updateText() {
-		var names = [];
-		$checks.filter(':checked').each(function () {
-			names.push($(this).closest('.multi-dropdown__option').find('span').text());
+		$toggle.on('click', function () {
+			$dropdown.toggleClass('open');
 		});
-		$toggle.text(names.length ? names.join(', ') : 'Выберите отрасли');
-		$requiredInput.val(names.length ? 'Y' : '');
-	}
 
-	$toggle.on('click', function () {
-		$dropdown.toggleClass('open');
+		$checks.on('change', updateText);
+
+		updateText();
 	});
-
-	$checks.on('change', updateText);
 
 	$(document).on('click', function (event) {
-		if (!$dropdown.is(event.target) && $dropdown.has(event.target).length === 0) {
-			$dropdown.removeClass('open');
-		}
+		$('.multi-dropdown').each(function () {
+			var $dropdown = $(this);
+			if (!$dropdown.is(event.target) && $dropdown.has(event.target).length === 0) {
+				$dropdown.removeClass('open');
+			}
+		});
 	});
-
-	updateText();
 }
 
 function makeLIst(result) {
