@@ -24,21 +24,6 @@
 		
 		</div>
 		
-		<div class="col-md-3">
-			<div class="form-group">
-				<label>Менеджер</label>
-				<select class="form-control" name='PROP[MANAGER]'  id="clinet-manger-select" >
-					<option value="">Все</option>
-					<? foreach ($arManagers as $id => $user): ?>
-					<option  
-					group="<?=$user['UF_DIRECTIONS']?>" 
-					value='<?= $id ?>' <?= $_REQUEST['PROP']['MANAGER'] == $id ? 'selected' : '' ?>> 
-						<?= $user['LAST_NAME'] ?> <?= $user['NAME'] ?>
-					</option>
-					<? endforeach ?>
-				</select>
-			</div>
-		</div>
 		<div class="col-md-2">
 			<div class="form-group">	
 				<div class="form-check">

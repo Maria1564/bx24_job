@@ -63,7 +63,7 @@
 				<div class="form-group fiz-hide sz-show" style="position: relative">
 					<label>ИНН</label>
 					<input autocomplete="off" type="text" id="input-org-inn" class="form-control input-INN" name="PROPERTY[INN]" data-result="#sr-inn" class="ajax-search-inn"  placeholder="123456789" 
-					value="<?= $_REQUEST['PROPERTY']['INN'] != '' ? $_REQUEST['PROPERTY']['INN'] : '' ?>">
+					value="<?= $_REQUEST['PROPERTY']['INN'] != '' ? $_REQUEST['PROPERTY']['INN'] : '' ?>" required>
 					<div id="sr-inn" class="input-serach-result"></div>
 				</div>
 				
@@ -72,6 +72,7 @@
 					<input autocomplete="off" type="text"  class="form-control input-NAME" id="input-org-name" name="NAME"  data-result="#sr-name" 
 					placeholder="" 
 					value='<?= $_REQUEST['NAME'] ?>'
+					required
 					>
 					<small id="emailHelp" class="form-text text-muted"></small>
 					<div id="sr-name" class="input-serach-result"></div>
@@ -82,15 +83,15 @@
 					<label>Общий контакт клиента</label>
 					<div class="row">
 						<div class="col-md-4 чfiz-hide ooo-user-name-field">
-							<input style="min-width:300px;" autocomplete="off" type="text" class="form-control"  name="PROPERTY[CONTACT_NAME]"  placeholder="Имя"
+							<input style="min-width:300px;" autocomplete="off" type="text" class="form-control"  name="PROPERTY[CONTACT_NAME]"  placeholder="Имя" required
 							value="<?= $_REQUEST['PROPERTY']['CONTACT_NAME'] != '' ? $_REQUEST['PROPERTY']['CONTACT_NAME'] : '' ?>">
 						</div>
 						<div class="col-md-3">
-							<input  autocomplete="off" type="text" class="form-control  input-phone-mask-new"  name="PROPERTY[PHONE]"  placeholder="Телефон"
+							<input  autocomplete="off" type="text" class="form-control  input-phone-mask-new"  name="PROPERTY[PHONE]"  placeholder="Телефон" required
 							value="<?= $_REQUEST['PROPERTY']['PHONE'] != '' ? $_REQUEST['PROPERTY']['PHONE'] : '' ?>" >
 						</div>
 						<div class="col-md-3">
-							<input autocomplete="off" type="email" class="form-control"  name="PROPERTY[EMAIL]"  placeholder="email"
+							<input autocomplete="off" type="email" class="form-control"  name="PROPERTY[EMAIL]"  placeholder="email" required
 							value="<?= $_REQUEST['PROPERTY']['EMAIL'] != '' ? $_REQUEST['PROPERTY']['EMAIL'] : '' ?>" >
 						</div>
 						<?/*
@@ -144,7 +145,7 @@
 				<div class="row">
 					<div class="col-md-6 form-group">
 						<label>Направление</label>
-						<select name="PROPERTY[DEPARTMENT]" class="form-control" >
+						<select name="PROPERTY[DEPARTMENT]" class="form-control" required>
 							<option value="" >Выберите направление</option>
 							<? foreach ($arDEPARTMENT as $id => $val): ?> 
 							<option value="<?= $id ?>" <?= $_REQUEST['PROPERTY']['DEPARTMENT'] == $id ? 'selected' : '' ?>><?= $val['VALUE'] ?></option>
@@ -155,7 +156,7 @@
 					
 					<div class="col-md-6 form-group">
 						<label>Реальная деятельность</label>
-						<select name="PROPERTY[INDUSTRY]" class="form-control" >
+						<select name="PROPERTY[INDUSTRY]" class="form-control" required>
 							<option value="" >Выберите  значение</option>
 							<? foreach ($arIndustry as $id => $name): ?> 
 							<option value="<?= $id ?>" <?= $_REQUEST['PROPERTY']['INDUSTRY']['ID'] == $id ? 'selected' : '' ?>><?= $name ?></option>
@@ -170,6 +171,7 @@
 				?>
 				<div class="form-group">
 					<label>Отрасли промышленности</label>
+					<input class="js-industrial-sectors-required" type="text" required style="opacity:0;height:1px;width:1px;position:absolute;pointer-events:none;" tabindex="-1" value="<?= count(array_filter($arSelectedIndustrialSectors)) ? 'Y' : '' ?>">
 					<input type="hidden" name="PROPERTY[INDUSTRIAL_SECTORS][]" value="">
 					<div class="multi-dropdown js-industrial-sectors-dropdown">
 						<button type="button" class="form-control multi-dropdown__toggle">Выберите отрасли</button>

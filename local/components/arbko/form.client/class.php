@@ -35,6 +35,51 @@ class ServiceListComponent extends CBitrixComponent {
 		if(isset($_REQUEST["phone_full"]) && !empty($_REQUEST["phone_full"])){
 			$_REQUEST['PROPERTY']['PHONE'] = $_REQUEST["phone_full"];
 		}
+
+		$requiredFields = [
+			'NAME' => 'Название ИП или организации',
+			'PROPERTY.INN' => 'ИНН',
+			'PROPERTY.CONTACT_NAME' => 'Общий контакт клиента: имя',
+			'PROPERTY.PHONE' => 'Общий контакт клиента: телефон',
+			'PROPERTY.EMAIL' => 'Общий контакт клиента: email',
+			'PROPERTY.RAION_NEW' => 'Регион',
+			'PROPERTY.OGRN' => 'ОГРН',
+			'PROPERTY.ADDRESS' => 'ЮР. АДРЕС',
+			'PROPERTY.OKVED' => 'ОКВЭД',
+			'PROPERTY.MSP_TYPE' => 'Тип МСП',
+			'PROPERTY.DEPARTMENT' => 'Направление',
+			'PROPERTY.INDUSTRY' => 'Реальная деятельность',
+			'PROPERTY.INDUSTRIAL_SECTORS' => 'Отрасли промышленности',
+			'PROPERTY.SOURCE_OF_INCOME' => 'Откуда пришел',
+		];
+
+		$errors = [];
+		foreach ($requiredFields as $path => $label) {
+			$value = null;
+			if ($path === 'NAME') {
+				$value = $_REQUEST['NAME'];
+			} else {
+				$code = substr($path, strlen('PROPERTY.'));
+				$value = $_REQUEST['PROPERTY'][$code];
+			}
+			if (is_array($value)) {
+				$value = array_filter($value, function ($item) {
+					return trim((string)$item) !== '';
+				});
+				if (count($value) === 0) {
+					$errors[] = $label;
+				}
+				continue;
+			}
+			if (trim((string)$value) === '') {
+				$errors[] = $label;
+			}
+		}
+
+		if (!empty($errors)) {
+			$this->arResult["error"] = 'Заполните обязательные поля: ' . implode(', ', $errors);
+			return false;
+		}
 		
 
 		$arResutl = Client::save($_REQUEST, false);

@@ -76,6 +76,7 @@ function initIndustrialSectorsDropdown() {
 
 	var $toggle = $dropdown.find('.multi-dropdown__toggle');
 	var $checks = $dropdown.find('input[type="checkbox"]');
+	var $requiredInput = $('.js-industrial-sectors-required');
 
 	function updateText() {
 		var names = [];
@@ -83,6 +84,7 @@ function initIndustrialSectorsDropdown() {
 			names.push($(this).closest('.multi-dropdown__option').find('span').text());
 		});
 		$toggle.text(names.length ? names.join(', ') : 'Выберите отрасли');
+		$requiredInput.val(names.length ? 'Y' : '');
 	}
 
 	$toggle.on('click', function () {
@@ -125,7 +127,7 @@ function setOrgData(id) {
 
     if (org.TYPE === 'INDIVIDUAL') {
         $('.input-ORG_TYPE').val(4);
-        $('.ooo-user-name-field').hide();
+        $('.ooo-user-name-field').show();
     } else {
         $('.input-ORG_TYPE').val(3);
         $('.ooo-user-name-field').show();
@@ -136,7 +138,7 @@ function setOrgData(id) {
 function setFormType(type, idOrgType) {
     console.log(type +' - '+idOrgType)
     $('.fiz-ur-link').removeClass('active');
-	$('#input-org-inn').removeAttr('required')
+	$('#input-org-inn').attr('required','required')
 	//$('.input-SZ').val('');
     if (type === 'fiz') {
         $('.fiz-hide').hide();
@@ -154,7 +156,6 @@ function setFormType(type, idOrgType) {
     }
 	if(type === 'sz'){	  
 		$('.sz-show').show();
-		$('#input-org-inn').attr('required','required')
 	}
 	
 	if(type == 'ip'){
