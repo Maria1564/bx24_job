@@ -31,15 +31,15 @@ if (!empty($_REQUEST['sort'])) {
 }
 //l($_SESSION['sort']);
 ?>
-<div class="row">
-    <div class="col-md-12">
+<div class="row clients-sort-row">
+    <div class="col-md-2">
 	<button class="btn btn-success" onclick="window.location.href = '/clients/add/'">Добавить клиента</button>
     </div>
     <div class="col-md-2">
 
 	<div class="items-count-cont">Найдено: <span class="items-count"></span></div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
 	<div class="list-btns">
 	    <a onclick="ExelCreate(this)" class="loadingx">Скачать Excel <span></span></a>
 	</div>
