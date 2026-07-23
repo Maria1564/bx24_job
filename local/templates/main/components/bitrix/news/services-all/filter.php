@@ -24,16 +24,6 @@
 	    </div>
 */?>
 	    <div class="form-group">
-		<?if(!$arParams['ALL_DATA_PAGE']):?>
-		<label>Клиент</label>
-		<select class="form-control" name='PROP[CLIENT]'	>
-		    <option value="">Все</option>
-		    <? foreach ($arClients as $client): ?>
-			    <option value=' <?= $client['ID'] ?>' <?= $_REQUEST['PROP']['CLIENT'] == $client['ID'] ? 'selected' : '' ?>><?= $client['PROPERTIES']['ORG_TYPE']['VALUE'] ?> <?= $client['NAME'] ?></option>
-		    <? endforeach ?>
-		</select>
-		<?endif?>
-		
 		<div class="form-check">
 		<input class="form-check-input" type="checkbox" name="CLIENT_UNIQ" id="CLIENT_UNIQ" value="Y" <?= $_REQUEST['CLIENT_UNIQ'] == 'Y' ? 'checked' : '' ?>>
 		<label class="form-check-label" for="CLIENT_UNIQ">

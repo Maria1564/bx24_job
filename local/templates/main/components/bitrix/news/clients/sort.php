@@ -31,7 +31,7 @@ if (!empty($_REQUEST['sort'])) {
 }
 //l($_SESSION['sort']);
 ?>
-<div class="row clients-sort-row">
+<div class="row sort-row">
     <div class="col-md-2">
 	<button class="btn btn-success" onclick="window.location.href = '/clients/add/'">Добавить клиента</button>
     </div>
@@ -48,7 +48,6 @@ if (!empty($_REQUEST['sort'])) {
     <div class="col-md-4">
 	<div class="unit-sorting">
 	    <div class="unit-sorting__contain">
-		<label for="sorting__chosen" class="unit-sorting__name">Сортировать:</label>
 		<select name="sort" id="sorting__chosen" class="f-unit f-unit--select js-inp-styled" data-smart-positioning="false" onchange="SetSorting()">		   
 		    <option <?= ($_SESSION['sort']['name'] == 'PROPERTY_SORT_DATE' && $_SESSION['sort']['order'] == "DESC" ? 'selected' : '') ?> value="PROPERTY_SORT_DATE:DESC">По дате добавления</option> <?//DATE_ACTIVE_FROM?>
 		    <option <?= ($_SESSION['sort']['name'] == 'NAME' && $_SESSION['sort']['order'] == "ASC" ? 'selected' : '') ?> value="NAME:ASC">По названию от А до Я</option>

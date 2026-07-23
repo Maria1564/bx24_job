@@ -35,19 +35,19 @@ else {
 ?>
 
 
-<div class="row">
-    <div class="col-md-12">
+<div class="row sort-row">
+    <div class="col-md-2">
 	<button class="btn btn-success" onclick="window.location.href = '<?= $arParams['SEF_FOLDER'] ?>add/'">Добавить мероприятие</button>
     </div>
     <div class="col-md-2">
 
-	<div class="items-count-cont">Найдено: <span class="items-count"></span></div>
+	<div>Найдено: <span class="items-count"></span></div>
     </div>
-    <div class="col-md-6">
-		<div class="list-btns">
+    <div class="col-md-4">
+		<div>
 			<a onclick="ExelCreateP(this)" class="loadingx">Выгрузить участников <span></span></a>
 		</div>
-		<div class="list-btns">
+		<div>
 			<a onclick="ExelCreate(this)" class="loadingx">Выгрузить мероприятия <span></span></a>
 		</div>
 
@@ -55,7 +55,6 @@ else {
     <div class="col-md-4">
 	<div class="unit-sorting">
 	    <div class="unit-sorting__contain">
-		<label for="sorting__chosen" class="unit-sorting__name">Сортировать:</label>
 		<select name="sort" id="sorting__chosen" class="f-unit f-unit--select js-inp-styled" data-smart-positioning="false" onchange="SetSorting()">		   
 		    <option <?= ($_SESSION['sort']['name'] == 'DATE_ACTIVE_FROM' && $_SESSION['sort']['order'] == "ASC" ? 'selected' : '') ?> value="DATE_ACTIVE_FROM:ASC">По дате добавления (по возрастанию)</option>
 			<option <?= ($_SESSION['sort']['name'] == 'DATE_ACTIVE_FROM' && $_SESSION['sort']['order'] == "DESC" ? 'selected' : '') ?> value="DATE_ACTIVE_FROM:DESC">По дате добавления (по убыванию)</option>

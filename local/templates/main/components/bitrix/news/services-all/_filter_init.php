@@ -99,10 +99,6 @@
 		applyServicesAllClientIdsFilter($arParams["FILTER_NAME"], $arClientsByIndustrialSector);
 	}
 
-	if (!empty($_REQUEST['PROP']['CLIENT'])) {
-		applyServicesAllClientIdsFilter($arParams["FILTER_NAME"], [$_REQUEST['PROP']['CLIENT']]);
-	}
-
 	foreach ($_REQUEST['PROP'] as $code => $value)
 	{
 		if (in_array($code, ['INDUSTRIAL_SECTORS', 'CLIENT'])) continue;

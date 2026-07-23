@@ -146,3 +146,40 @@ a.loading:before {
     margin-left: 163px;
        margin-top: -82px;
     min-width: 500px;}
+
+    #filter-form {
+	border: 1px solid grey;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+
+.btn-dark {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.btn-dark:hover,
+.btn-dark:focus {
+    color: #fff !important;
+    background-color: #23272b;
+    border-color: #1d2124;
+}
+
+.sort-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.sort-row > div {
+    display: flex;
+    align-items: center;
+}
+
+
+.sort-row:before,
+.sort-row:after {
+	display: none;
+}

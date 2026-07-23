@@ -8,31 +8,20 @@
 
 
 
+<form action="" method="get" id="filter-form">
 <div class="row">
-    <form action="" method="get" id="filter-form">
 		<input type="hidden" name="sort" id="form-sort" value="">
 		<?if(!$arParams['ALL_DATA_PAGE']):?>
 		<div class="col-md-4">
-			<? /*
-				<div class="form-group" style="display: none">
-				<label>Оказаны услуги</label>
-				<select class="form-control" name="PROP[TYPE]">
-				<option value="">Все</option>
-				<option value="1" <?= $_REQUEST['PROP']['TYPE'] == 1 ? 'selected' : '' ?>>Услуга</option>
-				<option value="2"<?= $_REQUEST['PROP']['TYPE'] == 2 ? 'selected' : '' ?>>Консультация</option>
-				</select>
-				</div>
-			*/?>
 			<div class="form-group">
-				<?if(!$arParams['ALL_DATA_PAGE']):?>
-				<label>Клиент</label>
-				<select class="form-control" name='PROP[CLIENT]'	>
-					<option value="">Все</option>
-					<? foreach ($arClients as $client): ?>
-					<option value=' <?= $client['ID'] ?>' <?= $_REQUEST['PROP']['CLIENT'] == $client['ID'] ? 'selected' : '' ?>><?= $client['PROPERTIES']['ORG_TYPE']['VALUE'] ?> <?= $client['NAME'] ?></option>
-					<? endforeach ?>
-				</select>
-				<?endif?>
+				<label>За какой период</label>
+				<div class="period">
+					<input class="form-control" type="date" name="DATE_FROM" value="<?= $_REQUEST['DATE_FROM'] ?>"> - 
+					<input class="form-control" type="date" name="DATE_TO"  value="<?= $_REQUEST['DATE_TO'] ?>">
+				</div>
+			</div>
+
+			<div class="form-group">
 				<?if(!$isConsultPage):?>				
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" name="DATE_OPEN" id="DATE_OPEN" value="Y" <?= $_REQUEST['DATE_OPEN'] == 'Y' ? 'checked' : '' ?>>
@@ -82,6 +71,10 @@
 					<br/><br/>
 				</div>
 			</div>
+			
+		</div>
+		<?endif?>
+		<div class="col-md-2">
 			<div class="form-group">	
 				<div class="form-check">
 					<input 
@@ -109,17 +102,6 @@
 						Юр Лицо
 					</label>
 				</div>
-			</div>
-		</div>
-		<?endif?>
-		<div class=" <?=!$arParams['ALL_DATA_PAGE']?'col-md-3':'col-md-3'?>">
-			<div class="form-group">
-				<label>За какой период</label>
-				<div class="period">
-					<input class="form-control" type="date" name="DATE_FROM" value="<?= $_REQUEST['DATE_FROM'] ?>"> - 
-					<input class="form-control" type="date" name="DATE_TO"  value="<?= $_REQUEST['DATE_TO'] ?>">
-				</div>
-				
 			</div>
 		</div>
 		
@@ -160,15 +142,13 @@
 			</div>
 			<?endif?>
 		</div>
-		<div class="col-md-2">
-			<div style="margin-top: 50px;">
+		<div class="col-md-12">
+			<div style="margin-top: 20px; display: flex; gap: 8px;">
 				
-				<button type="button" onclick="filterGetData()" class="btn btn-success btn-sm" >Фильтровать</button>
+				<button type="button" onclick="filterGetData()" class="btn btn-dark btn-sm" >Фильтровать</button>
 				<br/><br/>
 				<button type="button" onclick="window.location.href = '<?= $arParams['SEF_FOLDER'] ?>'" class="btn btn-default btn-sm">Сбросить фильтр</button>
 			</div>
-			
-			
 		</div>
-	</form>
-</div>
+	</div>
+</form>

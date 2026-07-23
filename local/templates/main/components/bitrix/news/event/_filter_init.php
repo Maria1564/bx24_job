@@ -23,6 +23,7 @@
 	
 	foreach ($_REQUEST['PROP'] as $code => $value)
 	{
+		if ($code == 'ORG_TYPE') continue;
 		if ($value == "") continue;
 		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
 	}
@@ -59,10 +60,6 @@
 	$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_CLIENT'] = $arFields;
 	
 	*/
-	$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_ORG_TYPE'] = $_REQUEST['PROP']['ORG_TYPE'];
-	
-	
-	
 	/**14/07/22 END****/
 	
 	/**30/08/22 ������ �� ���� �����������****/

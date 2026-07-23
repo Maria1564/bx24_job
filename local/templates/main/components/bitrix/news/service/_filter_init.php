@@ -55,10 +55,6 @@
 		applyServiceClientIdsFilter($arParams["FILTER_NAME"], $arClientsByIndustrialSector);
 	}
 
-	if (!empty($_REQUEST['PROP']['CLIENT'])) {
-		applyServiceClientIdsFilter($arParams["FILTER_NAME"], [$_REQUEST['PROP']['CLIENT']]);
-	}
-	
 	foreach ($_REQUEST['PROP'] as $code => $value)
 	{
 		if ($isConsultPage && $code == "DIRECTION_SERVICE") continue;
