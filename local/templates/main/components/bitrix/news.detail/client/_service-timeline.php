@@ -29,11 +29,12 @@
 			if($ar['BX24_STATUS_EXT'] == 1){
 				$taskStatusClass = 'task-status-success';		   
 			}
-			if(
-			$ar['TYPE']  != 'CONSULT' && 
-			$ar['STATUS'] == Service::STATUS_CLOSED && 
-			$ar['BX24_STATUS_EXT'] != 1){
-				$taskStatusClass = 'task-status-failed';		   
+			if($ar['TYPE'] != 'CONSULT' && $ar['STATUS'] == Service::STATUS_CLOSED){
+				if($ar['IS_CONTRACT_DEADLINE_EXPIRED']){
+					$taskStatusClass = 'task-status-failed';
+				} else {
+					$taskStatusClass = 'task-status-success';
+				}
 			}
 			
 			if($ar['CLIENT_REFUSED'] == 1){
@@ -133,6 +134,17 @@
 						<? endif ?>
 					</span>
 				</div>
+				<? if ($ar['CONTRACT_DEADLINE']): ?>
+				<div class="<?= $ar['IS_CONTRACT_DEADLINE_EXPIRED'] ? 'timeline-contract-deadline-expired' : '' ?>">
+					<span class="tl-info-title">Дедлайн по контракту</span>
+					<span class="tl-user"><?= $ar['CONTRACT_DEADLINE'] ?></span>
+				</div>
+				<div>
+					<span class="tl-info-title">Предоставил контракт:</span>
+					<span class="tl-user"><?= $ar['CONTRACT_PROVIDED_INFO']['STATUS'] ?></span>
+					<span class="tl-user"><?= $ar['CONTRACT_PROVIDED_INFO']['TEXT'] ?></span>
+				</div>
+				<? endif ?>
 				
 				<? if ($ar['TYPE'] == 'CONSULT' && $ar['SERVICE']['ID'] != null): ?>
 				<div>
@@ -195,16 +207,6 @@
 			<? $last_manager_id = $ar['MANAGER_ID']; ?>
 			
 			<? endforeach ?>
-			
-			<? /*
-				Источник прихода клиента
-			*/ ?>
-			<? if ($arResult['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'] != ""): ?>
-			<li class="event event-user-changed" data-date="8:30 - 9:30pm">
-		    <p><?= $arResult['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'] ?></p>    
-			</li>
-			
-			<? endif ?>
 			
 			</ul>
 			<div class="time-line-first-item"></div>

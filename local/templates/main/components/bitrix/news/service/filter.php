@@ -140,6 +140,14 @@
 					<? endforeach ?>
 				</select>
 			</div>
+			<div class="form-group">
+				<label>Бюджет</label>
+				<select class="form-control" name="BUDGET_SOURCE">
+					<option value="">Все</option>
+					<option value="regional" <?= ($_REQUEST['BUDGET_SOURCE'] ?? '') == 'regional' ? 'selected' : '' ?>>Региональный бюджет</option>
+					<option value="federal" <?= ($_REQUEST['BUDGET_SOURCE'] ?? '') == 'federal' ? 'selected' : '' ?>>Федеральный бюджет</option>
+				</select>
+			</div>
 			<?endif?>
 		</div>
 		<div class="col-md-12">

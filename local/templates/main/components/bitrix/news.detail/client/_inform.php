@@ -5,6 +5,9 @@
 	
 ?>
 <h1 class="unit-catalog-card__desc-name"><?= $arResult['~NAME'] ?></h1>
+<?if($hasExpiredContractDeadline):?>
+	<p class="client-contract-deadline-label">просрочен дедлайн по контракту</p>
+<?endif?>
 
 <?if($arResult["PROPERTIES"]['SX']['VALUE']=="Y"):?>
 	<p style="color:#8BC34A;margin-top:10px;">Сельское хозяйство</p>

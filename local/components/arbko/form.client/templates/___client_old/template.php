@@ -221,11 +221,6 @@
 					<label>Описание</label>
 				<textarea  class="form-control" name="PREVIEW_TEXT"><?= $_REQUEST['PREVIEW_TEXT'] ?></textarea>
 				</div>
-				<div class="form-group">
-				<label>Откуда пришел</label>
-				<textarea  class="form-control" name="PROPERTY[SOURCE_OF_INCOME]"><?= $_REQUEST['PROPERTY']['SOURCE_OF_INCOME'] != '' ? $_REQUEST['PROPERTY']['SOURCE_OF_INCOME'] : '' ?></textarea>
-				</div>
-				
 				<? if ($arResult["CLIENT"]): ?>
 				<button type="submit" class="btn btn-success" name="BTN_SAVE">Сохранить</button>
 				<button type="submit" class="btn btn-primary" name="BTN_UPDATE">Обновить</button>

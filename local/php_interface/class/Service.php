@@ -25,6 +25,95 @@ class Service {
 		return self::$statuses[$status_id];
 	}
 
+	public static function calculateDeadline($dateActiveFrom, $dateActiveTo = '') {
+		if ($dateActiveTo == '') {
+			return '';
+		}
+
+		$timestamp = MakeTimeStamp($dateActiveTo);
+		if (!$timestamp) {
+			$timestamp = strtotime($dateActiveTo);
+		}
+
+		if (!$timestamp) {
+			return '';
+		}
+
+		return date('d.m.Y', strtotime('+3 years', $timestamp));
+	}
+
+	public static function getDateTimestamp($date) {
+		if ($date == '') {
+			return 0;
+		}
+
+		$timestamp = MakeTimeStamp($date);
+		if (!$timestamp) {
+			$timestamp = strtotime($date);
+		}
+
+		if (!$timestamp) {
+			return 0;
+		}
+
+		return strtotime(date('Y-m-d', $timestamp));
+	}
+
+	public static function formatDaysCount($days) {
+		$days = abs((int)$days);
+		$lastTwoDigits = $days % 100;
+		$lastDigit = $days % 10;
+
+		if ($lastTwoDigits >= 11 && $lastTwoDigits <= 14) {
+			$word = 'дней';
+		} elseif ($lastDigit == 1) {
+			$word = 'день';
+		} elseif ($lastDigit >= 2 && $lastDigit <= 4) {
+			$word = 'дня';
+		} else {
+			$word = 'дней';
+		}
+
+		return $days . ' ' . $word;
+	}
+
+	public static function getContractProvidedInfo($contractProvidedValue, $contractProvidedDate, $deadlineDate) {
+		$providedTimestamp = self::getDateTimestamp($contractProvidedDate);
+		$isProvided = $contractProvidedValue != '' && $providedTimestamp > 0;
+
+		if ($isProvided) {
+			return [
+				'STATUS' => 'Да',
+				'TEXT' => date('d.m.Y', $providedTimestamp),
+				'IS_PROVIDED' => true,
+			];
+		}
+
+		$deadlineTimestamp = self::getDateTimestamp($deadlineDate);
+		if (!$deadlineTimestamp) {
+			return [
+				'STATUS' => 'Нет',
+				'TEXT' => 'дедлайн не рассчитан',
+				'IS_PROVIDED' => false,
+			];
+		}
+
+		$todayTimestamp = self::getDateTimestamp(date('d.m.Y'));
+		$daysLeft = (int)floor(($deadlineTimestamp - $todayTimestamp) / 86400);
+
+		if ($daysLeft >= 0) {
+			$text = 'осталось ' . self::formatDaysCount($daysLeft);
+		} else {
+			$text = 'просрочено на ' . self::formatDaysCount($daysLeft);
+		}
+
+		return [
+			'STATUS' => 'Нет',
+			'TEXT' => $text,
+			'IS_PROVIDED' => false,
+		];
+	}
+
 public static function save($arInput) {
 		$ELEMENT_ID = $arInput['id'];
 		$arItem = false;

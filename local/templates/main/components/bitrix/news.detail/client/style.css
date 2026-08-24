@@ -30,6 +30,25 @@
 .client-service-filter {    margin-top: 15px;}
 .client-service-filter label {    font-size: 13px;
     margin-right: 18px;}
+.client-contract-deadline-label {
+    color: #800020;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+.timeline-contract-deadline-expired span {
+    color: #800020;
+}
+.timeline .task-status-success {
+    background: #edf8e8;
+}
+.timeline .task-status-success .cs-lable.service {
+    color: #4f8f2f;
+    font-weight: bold;
+}
+.timeline .event h3 > span {
+    color: #8f8f8f;
+}
 .client-contacts-table-wrap {
     margin-top: 18px;
     max-width: 620px;

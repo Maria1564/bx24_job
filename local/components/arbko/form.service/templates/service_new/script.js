@@ -50,6 +50,20 @@ $(document).ready(function () {
 		}
     	let $el = $("input[name='NAME']").val(inputTextTemplate+''+text);
 	})
+
+	$('#contract-provided-checkbox').on('change', function(){
+		let $date = $('#contract-provided-date');
+		if ($(this).prop('checked')) {
+			if (!$date.val()) {
+				let now = new Date();
+				let month = String(now.getMonth() + 1).padStart(2, '0');
+				let day = String(now.getDate()).padStart(2, '0');
+				$date.val(now.getFullYear() + '-' + month + '-' + day);
+			}
+		} else {
+			$date.val('');
+		}
+	});
 });
 
 function selectDirectionEvent(unsetDirectionVal = false){

@@ -109,17 +109,7 @@ $allManagers = Helper::getManagers();
 
 	<? endforeach ?>
 
-	<? /*
-	  Источник прихода клиента
-	 */ ?>
-	<? if ($arResult['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'] != ""): ?>
-		<li class="event event-user-changed" data-date="8:30 - 9:30pm">
-		    <p><?= $arResult['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'] ?></p>    
-		</li>
-
-	<? endif ?>
-
-    </ul>
+			</ul>
     <div class="time-line-first-item"></div>
     <?
 //l($arResult['PROPERTIES']);

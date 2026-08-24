@@ -14,3 +14,20 @@
 .clients-list-items  .table-info-2 {}
 .clients-list-items  .table-info-2 td {    padding: 5px;
         background: transparent;}
+.clients-list-items .list-item.client-deadline-expired:before {
+    background: red;
+    display: block;
+    content: '';
+    width: 185px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 5px 0 0 5px;
+}
+.clients-list-items .client-contract-deadline-label {
+    color: #800020;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 8px;
+}

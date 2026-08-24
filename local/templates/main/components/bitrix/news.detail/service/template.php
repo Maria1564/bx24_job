@@ -22,6 +22,14 @@
 		
 		//header('location:/consult/'.$arResult['ID'].'/');
 	}
+
+	$isClosedService = $arResult['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED;
+	$deadlineDate = $isClosedService ? Service::calculateDeadline($arResult['DATE_ACTIVE_FROM'], $arResult['DATE_ACTIVE_TO']) : '';
+	$contractProvidedInfo = Service::getContractProvidedInfo(
+		$arResult['PROPERTIES']['CONTRACT_PROVIDED']['VALUE'],
+		$arResult['PROPERTIES']['CONTRACT_PROVIDED_DATE']['VALUE'],
+		$deadlineDate
+	);
 ?>
 
 <div class="service-detail">
@@ -64,6 +72,10 @@
 				echo  ' - '.$arT[0];
 			}
 			?></span>
+			<? if ($deadlineDate): ?>
+			<span style="margin-right: 20px; "><i class="fa fa-clock-o"></i> Дедлайн по контракту: <?= $deadlineDate ?></span>
+			<span style="margin-right: 20px; "><i class="fa fa-file-text-o"></i> Предоставил контракт: <?= $contractProvidedInfo['STATUS'] ?>, <?= $contractProvidedInfo['TEXT'] ?></span>
+			<? endif ?>
 			<?if($client_id>0):?>
 			<a href="/clients/<?= $client['ID'] ?>/"> <?= $client['NAME'] ?></a>
 			<?else:?>

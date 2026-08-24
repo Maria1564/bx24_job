@@ -16,8 +16,9 @@ $arManagers = Helper::getManagers();
 </script>
 <div class="clients-list-items">
     <? foreach ($arResult["ITEMS"] as $arItem): ?>
+		<? $hasExpiredContractDeadline = Client::hasExpiredContractDeadline($arItem['ID']); ?>
 	
-	    <div class="row list-item" >
+	    <div class="row list-item <?= $hasExpiredContractDeadline ? 'client-deadline-expired' : '' ?>" >
 		<div class="col-md-2">
 		    <?
 		    if ($arItem["PREVIEW_PICTURE"]["SRC"] == null)
@@ -38,6 +39,9 @@ $arManagers = Helper::getManagers();
 			?></div>
 		    <h2><a href="<?= $arItem["DETAIL_PAGE_URL"] ?>"><? echo $arItem["~NAME"] ?></a></h2>
 		    <div class="description"><? echo $arItem["PREVIEW_TEXT"] ?></div>
+		    <? if ($hasExpiredContractDeadline): ?>
+				<div class="client-contract-deadline-label">просрочен дедлайн по контракту</div>
+		    <? endif ?>
 		    <table class="table-info">
 			<tr>
 			    <td>

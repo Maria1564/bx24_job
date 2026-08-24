@@ -237,23 +237,6 @@
 					<label>Описание</label>
 					<textarea  class="form-control" name="PREVIEW_TEXT"><?= $_REQUEST['PREVIEW_TEXT'] ?></textarea>
 				</div>
-				<div class="form-group">
-					<?
-						$arINCOME = Helper::getIncomings();
-						
-					?>
-					<label>Откуда пришел</label>
-					<select  name="PROPERTY[SOURCE_OF_INCOME]" class="form-control" required="">
-					<option  value="">Выберите значение</option>
-						<?foreach($arINCOME as $t):?>
-						<option <?= $_REQUEST['PROPERTY']['SOURCE_OF_INCOME'] == $t ? 'selected' : '' ?> value="<?=$t?>"><?=$t?></option>
-						<?endforeach?>
-					</select>
-					<? /*
-					<textarea  class="form-control" name="PROPERTY[SOURCE_OF_INCOME]"><?= $_REQUEST['PROPERTY']['SOURCE_OF_INCOME'] != '' ? $_REQUEST['PROPERTY']['SOURCE_OF_INCOME'] : '' ?></textarea>
-					*/?>
-				</div>
-				
 				<? if ($arResult["CLIENT"]): ?>
 				<button type="submit" class="btn btn-success" name="BTN_SAVE">Сохранить</button>
 				<button type="submit" class="btn btn-primary" name="BTN_UPDATE">Обновить</button>

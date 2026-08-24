@@ -88,11 +88,6 @@
 	   </tr>
 	<? endforeach ?>
 	</table>
-	<? if ($arResult['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'] != ""): ?>
-		<h3>Откуда пришел:</h3>
-		    <p><?= $arResult['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'] ?></p>    
-	<? endif ?>
-
 	<style>
 	#word-content table * {font-size:10px;}
 	</style>

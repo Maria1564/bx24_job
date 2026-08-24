@@ -39,6 +39,19 @@
 			{
 				$_REQUEST['PROPERTY']['STATUS'] =   Service::STATUS_ACTIVE;		
 			}
+
+			if ($_REQUEST['PROPERTY']['CONTRACT_PROVIDED'] == '') {
+				$_REQUEST['PROPERTY']['CONTRACT_PROVIDED_DATE'] = '';
+			} else {
+				if ($_REQUEST['PROPERTY']['CONTRACT_PROVIDED_DATE'] == '') {
+					$_REQUEST['PROPERTY']['CONTRACT_PROVIDED_DATE'] = date('d.m.Y');
+				} else {
+					$s = strtotime($_REQUEST['PROPERTY']['CONTRACT_PROVIDED_DATE']);
+					if ($s) {
+						$_REQUEST['PROPERTY']['CONTRACT_PROVIDED_DATE'] = date('d.m.Y', $s);
+					}
+				}
+			}
 			
 			$_REQUEST['PROPERTY']['CREATED'] = "SITE";
 			//l($_REQUEST);exit;

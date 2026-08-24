@@ -50,7 +50,6 @@ class ServiceListComponent extends CBitrixComponent {
 			'PROPERTY.DEPARTMENT' => 'Направление',
 			'PROPERTY.INDUSTRY' => 'Реальная деятельность',
 			'PROPERTY.INDUSTRIAL_SECTORS' => 'Отрасли промышленности',
-			'PROPERTY.SOURCE_OF_INCOME' => 'Откуда пришел',
 		];
 
 		$errors = [];

@@ -16,6 +16,7 @@
 $allServices = Client::getAllServicesConsultsHistory($arResult['ID']);
 $allManagers = Helper::getManagers();
 $orgType_VALUE_ENUM_ID = $arResult['PROPERTIES']['ORG_TYPE']['VALUE_ENUM_ID'];
+$hasExpiredContractDeadline = Client::hasExpiredContractDeadline($arResult['ID']);
 
 
 $clients_id = Contact::getClientContactsReturnId($arResult['ID']);
@@ -63,14 +64,6 @@ if($clients_id){
 <div class="clinet-detail" id="client-detail">
 	<div class="top-btn word-export-hide">
 		<a href="/clients/"  class="btn"><i class="fa fa-arrow-left"></i> В список</a>
-		<?
-			if ($arResult['PROPERTIES']['BX24_COMPANY_ID']['VALUE'] > 0) {
-			?>
-			<a target="_blank" href="https://arbko.bitrix24.ru/crm/company/details/<?=$arResult['PROPERTIES']['BX24_COMPANY_ID']['VALUE']?>/"  class="btn">
-			<i class="fa fa-address-card"></i> bitrix24.ru</a>
-			<?
-			}
-		?>
 		<a   class="btn" onclick="exportClientHTML('<?= $arResult['NAME'] ?>','<?= $arResult['NAME'] ?>')"><i class="fa fa-file-word-o"></i> скачать </a>
 		<br/><br/>
 	</div>

@@ -4,6 +4,106 @@
 	
 	$this->setFrameMode(true);
 	$allManagers = Helper::getManagers();
+
+	if (!function_exists('getServiceListStoredPropertyValue')) {
+		function getServiceListStoredPropertyValue($iblockId, $elementId, $propertyCode) {
+			global $DB;
+
+			static $propertyIds = [];
+
+			$iblockId = (int)$iblockId;
+			$elementId = (int)$elementId;
+			if ($iblockId <= 0 || $elementId <= 0 || $propertyCode == '') {
+				return '';
+			}
+
+			$cacheKey = $iblockId . ':' . $propertyCode;
+			if (!array_key_exists($cacheKey, $propertyIds)) {
+				$propertyIds[$cacheKey] = 0;
+				$dbProperty = CIBlockProperty::GetList(
+					[],
+					[
+						'IBLOCK_ID' => $iblockId,
+						'CODE' => $propertyCode,
+					]
+				);
+				if ($arProperty = $dbProperty->Fetch()) {
+					$propertyIds[$cacheKey] = (int)$arProperty['ID'];
+				}
+			}
+
+			$propertyId = $propertyIds[$cacheKey];
+			if ($propertyId <= 0) {
+				return '';
+			}
+
+			$tableName = 'b_iblock_element_prop_s' . $iblockId;
+			$fieldName = 'PROPERTY_' . $propertyId;
+			$sql = "
+				SELECT {$fieldName} AS VALUE
+				FROM {$tableName}
+				WHERE IBLOCK_ELEMENT_ID = {$elementId}
+				LIMIT 1
+			";
+			$dbValue = $DB->Query($sql, false, 'service list stored property');
+			if ($arValue = $dbValue->Fetch()) {
+				return $arValue['VALUE'];
+			}
+
+			return '';
+		}
+	}
+
+	if (!function_exists('getServiceListClientName')) {
+		function getServiceListClientName($clientId) {
+			$clientId = (int)$clientId;
+			if ($clientId <= 0) {
+				return '';
+			}
+
+			$arClient = Client::getClientById($clientId);
+			if (!empty($arClient['NAME'])) {
+				return $arClient['NAME'];
+			}
+
+			$dbClient = CIBlockElement::GetList(
+				[],
+				[
+					'IBLOCK_ID' => Client::CLIENT_IBLOCK_ID,
+					'ID' => $clientId,
+				],
+				false,
+				false,
+				['ID', 'NAME']
+			);
+			if ($arInactiveClient = $dbClient->Fetch()) {
+				return str_replace('&quot;', '"', $arInactiveClient['NAME']);
+			}
+
+			return '';
+		}
+	}
+
+	if (!function_exists('getServiceListManagerName')) {
+		function getServiceListManagerName($managerId, $allManagers) {
+			$managerId = (int)$managerId;
+			if ($managerId <= 0) {
+				return '';
+			}
+
+			if (!empty($allManagers[$managerId]['FIO'])) {
+				return $allManagers[$managerId]['FIO'];
+			}
+
+			$dbUser = CUser::GetByID($managerId);
+			if ($arUser = $dbUser->Fetch()) {
+				$fio = trim($arUser['LAST_NAME'] . ' ' . $arUser['NAME']);
+				return $fio != '' ? $fio : $arUser['EMAIL'];
+			}
+
+			return '';
+		}
+	}
 	
 	//l($arResult["ITEMS"]);
 ?>
@@ -24,11 +124,8 @@
 	<?
 		//continue;
 		$taskStatusClass = '';
-		if($arItem['PROPERTIES']['BX24_STATUS_EXT']['VALUE'] == 1){
+	    if($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT' && $arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED){
 			$taskStatusClass = 'task-status-success';		   
-		}
-	    if($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT' && $arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED && $arItem['PROPERTIES']['BX24_STATUS_EXT']['VALUE'] != 1){
-			$taskStatusClass = 'task-status-failed';		   
 		}
 		if($arItem['PROPERTIES']['CLIENT_REFUSED']['VALUE'] == 1){
 			$taskStatusClass = 'task-status-refused';	
@@ -40,6 +137,41 @@
 		$arItem["DATE_ACTIVE_FROM"] =  $arT [0];
 		$arT = explode(" ",$arItem["DATE_ACTIVE_TO"]);
 		$arItem["DATE_ACTIVE_TO"] =  $arT [0];
+
+		$isClosedService = $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT'
+			&& $arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED;
+		$deadlineDate = Service::calculateDeadline($arItem["DATE_ACTIVE_FROM"], $arItem["DATE_ACTIVE_TO"]);
+		$isDeadlineExpired = false;
+		$contractProvidedInfo = [
+			'STATUS' => 'Нет',
+			'TEXT' => '',
+			'IS_PROVIDED' => false,
+		];
+		if ($isClosedService && $deadlineDate != '') {
+			$deadlineTimestamp = MakeTimeStamp($deadlineDate);
+			$todayTimestamp = MakeTimeStamp(date('d.m.Y'));
+			$contractProvidedValue = $arItem['PROPERTIES']['CONTRACT_PROVIDED']['VALUE'];
+			if ($contractProvidedValue == '') {
+				$contractProvidedValue = getServiceListStoredPropertyValue($arItem['IBLOCK_ID'], $arItem['ID'], 'CONTRACT_PROVIDED');
+			}
+			$contractProvidedDate = $arItem['PROPERTIES']['CONTRACT_PROVIDED_DATE']['VALUE'];
+			if ($contractProvidedDate == '') {
+				$contractProvidedDate = getServiceListStoredPropertyValue($arItem['IBLOCK_ID'], $arItem['ID'], 'CONTRACT_PROVIDED_DATE');
+			}
+			$contractProvidedInfo = Service::getContractProvidedInfo($contractProvidedValue, $contractProvidedDate, $deadlineDate);
+			$isContractProvidedInTime = false;
+			if ($contractProvidedValue != '' && $contractProvidedDate != '') {
+				$contractProvidedTimestamp = MakeTimeStamp($contractProvidedDate);
+				if (!$contractProvidedTimestamp) {
+					$contractProvidedTimestamp = strtotime($contractProvidedDate);
+				}
+				$isContractProvidedInTime = $contractProvidedTimestamp && $contractProvidedTimestamp <= $deadlineTimestamp;
+			}
+			$isDeadlineExpired = $deadlineTimestamp && $deadlineTimestamp < $todayTimestamp && !$isContractProvidedInTime;
+		}
+		if ($isDeadlineExpired) {
+			$taskStatusClass .= ' deadline-expired';
+		}
 		
 		
 	?>
@@ -68,20 +200,25 @@
 		    <div class="info">
 				<div>
 					<?
-						$arClient = "";
-						//l($arItem['PROPERTIES']['CLINET']);
-						if ($arItem['PROPERTIES']['CLIENT']['VALUE'] > 1) {		
-							$arClient = Client::getClientById($arItem['PROPERTIES']['CLIENT']['VALUE']);
+						$clientId = (int)$arItem['PROPERTIES']['CLIENT']['VALUE'];
+						if ($clientId <= 0) {
+							$clientId = (int)getServiceListStoredPropertyValue($arItem['IBLOCK_ID'], $arItem['ID'], 'CLIENT');
 						}
-						// $arClient = Client::getClientById($arItem['PROPERTIES']['CLIENT']['VALUE']);
-						//  l($arClient);
+						$clientName = getServiceListClientName($clientId);
 					?>
 					<span class="tl-info-title">клиент</span>
-					<span class="tl-user"><?= $arClient['NAME'] ?></span>
+					<span class="tl-user"><?= htmlspecialcharsbx($clientName) ?></span>
 				</div>
 				<div>
+					<?
+						$managerId = (int)$arItem['PROPERTIES']['MANAGER']['VALUE'];
+						if ($managerId <= 0) {
+							$managerId = (int)getServiceListStoredPropertyValue($arItem['IBLOCK_ID'], $arItem['ID'], 'MANAGER');
+						}
+						$managerName = getServiceListManagerName($managerId, $allManagers);
+					?>
 					<span class="tl-info-title">ответственный</span>
-					<span class="tl-user"><?= $allManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'] ?></span>
+					<span class="tl-user"><?= htmlspecialcharsbx($managerName) ?></span>
 				</div>
 				
 				<div>
@@ -94,6 +231,17 @@
 					<? endif ?>
 					
 				</div>
+				<? if ($isClosedService && $deadlineDate != ''): ?>
+				<div class="<?= $isDeadlineExpired ? 'contract-deadline-expired' : '' ?>">
+				    <span class="tl-info-title">Дедлайн по контракту</span>
+				    <span class="tl-user"><?= $deadlineDate ?></span>
+				</div>
+				<div>
+				    <span class="tl-info-title">Предоставил контракт:</span>
+				    <span class="tl-user"><?= $contractProvidedInfo['STATUS'] ?></span>
+				    <span class="tl-user"><?= $contractProvidedInfo['TEXT'] ?></span>
+				</div>
+				<? endif ?>
 				<? if ($ar['TYPE'] == 'CONSULT' && $ar['SERVICE']['ID'] != null): ?>
 				<div>
 				    <span class="tl-info-title">Услуга</span>

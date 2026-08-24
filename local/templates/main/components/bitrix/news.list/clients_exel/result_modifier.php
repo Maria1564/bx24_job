@@ -22,7 +22,6 @@
 		"EMAIL" => $arItem['PROPERTIES']['EMAIL']['VALUE'],
 		"INN" => $arItem['PROPERTIES']['INN']['VALUE'],
 		"OGRN" => $arItem['PROPERTIES']['OGRN']['VALUE'],
-		"SOURCE_OF_INCOME" => $arItem['PROPERTIES']['SOURCE_OF_INCOME']['VALUE'],
 		"BLUE_CLIENT" => $arItem['PROPERTIES']['BLUE_CLIENT']['VALUE'],
 		"ORG_TYPE" => $arItem['PROPERTIES']['ORG_TYPE']['VALUE'],
 		"SZ" => $arItem['PROPERTIES']['SZ']['VALUE'],

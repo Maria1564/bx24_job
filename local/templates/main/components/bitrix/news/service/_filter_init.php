@@ -62,6 +62,12 @@
 		if ($value == "") continue;
 		$GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_' . $code] = $value;
 	}
+	if (!$isConsultPage && $_REQUEST['BUDGET_SOURCE'] == 'regional') {
+		$GLOBALS[$arParams["FILTER_NAME"]]['>PROPERTY_REGIONAL_BUDGET'] = 0;
+	}
+	if (!$isConsultPage && $_REQUEST['BUDGET_SOURCE'] == 'federal') {
+		$GLOBALS[$arParams["FILTER_NAME"]]['>PROPERTY_FEDERAL_BUDGET'] = 0;
+	}
 	if($isConsultPage){
 	   //проблема в том что у консультаций поле DIRECTION не заполняется,
 	   // и фильтровамть по нему не получится! 

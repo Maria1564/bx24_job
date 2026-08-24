@@ -78,6 +78,51 @@ class Client {
 		return 0;
 	}
 
+	public static function hasExpiredContractDeadline($idClient) {
+		$idClient = (int)$idClient;
+		if ($idClient <= 0) {
+			return false;
+		}
+
+		$res = CIBlockElement::GetList(
+			['active_from' => 'DESC'],
+			[
+				'ACTIVE' => 'Y',
+				'IBLOCK_ID' => IBLOCK_ID_SERVICE,
+				'PROPERTY_CLIENT' => $idClient,
+				'PROPERTY_TYPE' => Service::TYPE_SERVICE_ID,
+				'PROPERTY_STATUS' => Service::STATUS_CLOSED,
+			],
+			false,
+			false,
+			[]
+		);
+
+		$todayTimestamp = Service::getDateTimestamp(date('d.m.Y'));
+		while ($ob = $res->GetNextElement()) {
+			$arFields = $ob->GetFields();
+			$arProps = $ob->GetProperties();
+			$dateFrom = explode(' ', $arFields['DATE_ACTIVE_FROM'])[0];
+			$dateTo = explode(' ', $arFields['DATE_ACTIVE_TO'])[0];
+			$deadlineDate = Service::calculateDeadline($dateFrom, $dateTo);
+			$deadlineTimestamp = Service::getDateTimestamp($deadlineDate);
+			if (!$deadlineTimestamp || $deadlineTimestamp >= $todayTimestamp) {
+				continue;
+			}
+
+			$contractTimestamp = Service::getDateTimestamp($arProps['CONTRACT_PROVIDED_DATE']['VALUE']);
+			$isContractProvidedInTime = $arProps['CONTRACT_PROVIDED']['VALUE'] != ''
+				&& $contractTimestamp
+				&& $contractTimestamp <= $deadlineTimestamp;
+
+			if (!$isContractProvidedInTime) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Возвращает сумму денег
 	 * @param type $idCLient - iD клиента
@@ -455,6 +500,33 @@ class Client {
 			    $raiting = new Raiting();
 			    $smsData = $raiting->getServiceRaitingArray($arFields['ID']);		
 			}
+			$deadlineDate = '';
+			$isContractDeadlineExpired = false;
+			$contractProvidedInfo = [
+				'STATUS' => 'Нет',
+				'TEXT' => '',
+				'IS_PROVIDED' => false,
+			];
+			if (
+				$arProps['TYPE']['VALUE_XML_ID'] == Service::TYPE_SERVICE
+				&& $arProps['STATUS']['VALUE'] == Service::STATUS_CLOSED
+			) {
+				$deadlineDate = Service::calculateDeadline($date1[0], $date2[0]);
+				$deadlineTimestamp = Service::getDateTimestamp($deadlineDate);
+				$todayTimestamp = Service::getDateTimestamp(date('d.m.Y'));
+				$contractTimestamp = Service::getDateTimestamp($arProps['CONTRACT_PROVIDED_DATE']['VALUE']);
+				$isContractProvidedInTime = $arProps['CONTRACT_PROVIDED']['VALUE'] != ''
+					&& $contractTimestamp
+					&& $contractTimestamp <= $deadlineTimestamp;
+				$isContractDeadlineExpired = $deadlineTimestamp
+					&& $deadlineTimestamp < $todayTimestamp
+					&& !$isContractProvidedInTime;
+				$contractProvidedInfo = Service::getContractProvidedInfo(
+					$arProps['CONTRACT_PROVIDED']['VALUE'],
+					$arProps['CONTRACT_PROVIDED_DATE']['VALUE'],
+					$deadlineDate
+				);
+			}
 			if(strlen($arFields['~PREVIEW_TEXT']) <2){
 			   $arFields['~PREVIEW_TEXT'] = '';
 			}
@@ -481,6 +553,9 @@ class Client {
 				"SERVICE" => $arService,
 				"BX24_STATUS_EXT"=>$arProps['BX24_STATUS_EXT']['VALUE'],
 				"CLIENT_REFUSED"=>$arProps['CLIENT_REFUSED']['VALUE'],
+				"CONTRACT_DEADLINE" => $deadlineDate,
+				"IS_CONTRACT_DEADLINE_EXPIRED" => $isContractDeadlineExpired,
+				"CONTRACT_PROVIDED_INFO" => $contractProvidedInfo,
 				"DETAIL_PAGE_URL" => ($arProps['TYPE']['VALUE_XML_ID'] == 'SERVICE' ? '/service/' : '/consult/') . $arFields['ID'] . '/',
 				'BX24_WHAT_DO'=>$arProps['BX24_WHAT_DO']['VALUE']['TEXT'],
 				'SMS_RAITING'=> $smsData,
