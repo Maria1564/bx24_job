@@ -14,6 +14,27 @@ class Client {
 	const ORG_TYPE_FIZ_ID = 10;
 	const ORG_TYPE_SZ_ID = 16;
 
+	private static function getYesEnumId($propertyCode) {
+		CModule::IncludeModule('iblock');
+		$property_enums = CIBlockPropertyEnum::GetList(
+			["SORT" => "ASC", "ID" => "ASC"],
+			["IBLOCK_ID" => self::CLIENT_IBLOCK_ID, "CODE" => $propertyCode, "XML_ID" => "Y"]
+		);
+		if ($enum = $property_enums->Fetch()) {
+			return (int)$enum['ID'];
+		}
+
+		$property_enums = CIBlockPropertyEnum::GetList(
+			["SORT" => "ASC", "ID" => "ASC"],
+			["IBLOCK_ID" => self::CLIENT_IBLOCK_ID, "CODE" => $propertyCode]
+		);
+		if ($enum = $property_enums->Fetch()) {
+			return (int)$enum['ID'];
+		}
+
+		return 0;
+	}
+
 	/**
 	 * Возращает код рабечего статуса клиента
 	 * @param type $id
@@ -59,7 +80,7 @@ class Client {
 	 * @return int - количество записей
 	 */
 	public static function getServiceCountDone($idCLient) {
-		$res = CIBlockElement::GetList(false, ['IBLOCK_ID' => IBLOCK_ID_SERVICE, 'PROPERTY_CLIENT' => $idCLient, 'PROPERTY_TYPE' => Service::TYPE_SERVICE_ID,'PROPERTY_BX24_STATUS_EXT'=>1], array('IBLOCK_ID'));
+		$res = CIBlockElement::GetList(false, ['IBLOCK_ID' => IBLOCK_ID_SERVICE, 'PROPERTY_CLIENT' => $idCLient, 'PROPERTY_TYPE' => Service::TYPE_SERVICE_ID, 'PROPERTY_STATUS' => Service::STATUS_CLOSED], array('IBLOCK_ID'));
 		if ($el = $res->Fetch()) {
 			return $el['CNT'];
 		}
@@ -129,16 +150,15 @@ class Client {
 	 * @return int - сумма
 	 */
 	public static function getMoneyCount($idCLient) {
-		$res = CIBlockElement::GetList([], ['IBLOCK_ID' => IBLOCK_ID_SERVICE, 'PROPERTY_CLIENT' => $idCLient, 'PROPERTY_TYPE' => Service::TYPE_SERVICE_ID], false, false, 
-		['IBLOCK_ID', 'ID', 'PROPERTY_MONEY','PROPERTY_MONEY2','PROPERTY_MONEY3','PROPERTY_BX24_STATUS_EXT']);
+		$res = CIBlockElement::GetList([], ['IBLOCK_ID' => IBLOCK_ID_SERVICE, 'PROPERTY_CLIENT' => $idCLient, 'PROPERTY_TYPE' => Service::TYPE_SERVICE_ID, 'PROPERTY_STATUS' => Service::STATUS_CLOSED], false, false,
+		['IBLOCK_ID', 'ID', 'PROPERTY_MONEY', 'PROPERTY_MONEY2', 'PROPERTY_MONEY3', 'PROPERTY_REGIONAL_BUDGET', 'PROPERTY_FEDERAL_BUDGET']);
 		$money = 0;
 		while ($el = $res->Fetch()) {
-
-		if($el['PROPERTY_BX24_STATUS_EXT_VALUE'] ==  1){
 			$money += (int)$el['PROPERTY_MONEY_VALUE'];
 			$money += (int)$el['PROPERTY_MONEY2_VALUE'];
 			$money += (int)$el['PROPERTY_MONEY3_VALUE'];
-		}
+			$money += (int)$el['PROPERTY_REGIONAL_BUDGET_VALUE'];
+			$money += (int)$el['PROPERTY_FEDERAL_BUDGET_VALUE'];
 		}
 		return $money;
 	}
@@ -186,35 +206,35 @@ class Client {
 		}
 		
 		if($arInput['PROPERTY']['KREATIV']=="Y"){ // чекбокс Креативный предприниматель?
-			$arInput['PROPERTY']['KREATIV'] = 57;
+			$arInput['PROPERTY']['KREATIV'] = self::getYesEnumId('KREATIV');
 		}
 		else{
 			$arInput['PROPERTY']['KREATIV'] = 0;
 		}
-		
+
 		if($arInput['PROPERTY']['WOMEN_BUSINESS']=="Y"){ // чекбокс Женское предпринимательство
-			$arInput['PROPERTY']['WOMEN_BUSINESS'] = 86;
+			$arInput['PROPERTY']['WOMEN_BUSINESS'] = self::getYesEnumId('WOMEN_BUSINESS');
 		}
 		else{
 			$arInput['PROPERTY']['WOMEN_BUSINESS'] = 0;
 		}
 
 		if($arInput['PROPERTY']['OUTBOUND_TOURISM']=="Y"){ // чекбокс Выездной туризм
-			$arInput['PROPERTY']['OUTBOUND_TOURISM'] = 87;
+			$arInput['PROPERTY']['OUTBOUND_TOURISM'] = self::getYesEnumId('OUTBOUND_TOURISM');
 		}
 		else{
 			$arInput['PROPERTY']['OUTBOUND_TOURISM'] = 0;
 		}
 
 		if($arInput['PROPERTY']['APK']=="Y"){ // чекбокс АПК
-			$arInput['PROPERTY']['APK'] = 88;
+			$arInput['PROPERTY']['APK'] = self::getYesEnumId('APK');
 		}
 		else{
 			$arInput['PROPERTY']['APK'] = 0;
 		}
 
 		if($arInput['PROPERTY']['ACTIVE_EXPORTER']=="Y"){ // чекбокс Действующий экспортер
-			$arInput['PROPERTY']['ACTIVE_EXPORTER'] = 89;
+			$arInput['PROPERTY']['ACTIVE_EXPORTER'] = self::getYesEnumId('ACTIVE_EXPORTER');
 		}
 		else{
 			$arInput['PROPERTY']['ACTIVE_EXPORTER'] = 0;

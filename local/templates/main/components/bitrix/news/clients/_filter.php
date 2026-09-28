@@ -1,4 +1,36 @@
 
+<?
+if (!function_exists('getClientFilterYesEnumId')) {
+	function getClientFilterYesEnumId($propertyCode) {
+		$property_enums = CIBlockPropertyEnum::GetList(
+			["SORT" => "ASC", "ID" => "ASC"],
+			["IBLOCK_ID" => Client::CLIENT_IBLOCK_ID, "CODE" => $propertyCode, "XML_ID" => "Y"]
+		);
+		if ($enum = $property_enums->Fetch()) {
+			return (string)$enum['ID'];
+		}
+
+		$property_enums = CIBlockPropertyEnum::GetList(
+			["SORT" => "ASC", "ID" => "ASC"],
+			["IBLOCK_ID" => Client::CLIENT_IBLOCK_ID, "CODE" => $propertyCode]
+		);
+		if ($enum = $property_enums->Fetch()) {
+			return (string)$enum['ID'];
+		}
+
+		return '';
+	}
+}
+
+$clientFilterYesEnumIds = [
+	'KREATIV' => getClientFilterYesEnumId('KREATIV'),
+	'WOMEN_BUSINESS' => getClientFilterYesEnumId('WOMEN_BUSINESS'),
+	'OUTBOUND_TOURISM' => getClientFilterYesEnumId('OUTBOUND_TOURISM'),
+	'APK' => getClientFilterYesEnumId('APK'),
+	'ACTIVE_EXPORTER' => getClientFilterYesEnumId('ACTIVE_EXPORTER'),
+];
+?>
+
 <form action="" method="get" id="filter-form" onsubmit="filterGetData();return false;">
     <input type="hidden" name="sort" id="form-sort" value="">
 	
@@ -115,8 +147,8 @@
 				type="checkbox"  
 				id="KREATIV" 
 				name='PROP[KREATIV][]' 
-				value="57"
-				<?= in_array('57', (array)($_REQUEST['PROP']['KREATIV'] ?? [])) ? 'checked' : '' ?>
+				value="<?= $clientFilterYesEnumIds['KREATIV'] ?>"
+				<?= in_array($clientFilterYesEnumIds['KREATIV'], (array)($_REQUEST['PROP']['KREATIV'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="KREATIV">
 					Креативный предприниматель
@@ -129,8 +161,8 @@
 				type="checkbox"  
 				id="WOMEN_BUSINESS" 
 				name='PROP[WOMEN_BUSINESS][]' 
-				value="86"
-				<?= in_array('86', (array)($_REQUEST['PROP']['WOMEN_BUSINESS'] ?? [])) ? 'checked' : '' ?>
+				value="<?= $clientFilterYesEnumIds['WOMEN_BUSINESS'] ?>"
+				<?= in_array($clientFilterYesEnumIds['WOMEN_BUSINESS'], (array)($_REQUEST['PROP']['WOMEN_BUSINESS'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="WOMEN_BUSINESS">
 					Женское предпринимательство
@@ -143,8 +175,8 @@
 				type="checkbox"  
 				id="OUTBOUND_TOURISM" 
 				name='PROP[OUTBOUND_TOURISM][]' 
-				value="87"
-				<?= in_array('87', (array)($_REQUEST['PROP']['OUTBOUND_TOURISM'] ?? [])) ? 'checked' : '' ?>
+				value="<?= $clientFilterYesEnumIds['OUTBOUND_TOURISM'] ?>"
+				<?= in_array($clientFilterYesEnumIds['OUTBOUND_TOURISM'], (array)($_REQUEST['PROP']['OUTBOUND_TOURISM'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="OUTBOUND_TOURISM">
 					Выездной туризм
@@ -157,8 +189,8 @@
 				type="checkbox"  
 				id="APK" 
 				name='PROP[APK][]' 
-				value="88"
-				<?= in_array('88', (array)($_REQUEST['PROP']['APK'] ?? [])) ? 'checked' : '' ?>
+				value="<?= $clientFilterYesEnumIds['APK'] ?>"
+				<?= in_array($clientFilterYesEnumIds['APK'], (array)($_REQUEST['PROP']['APK'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="APK">
 					АПК
@@ -171,8 +203,8 @@
 				type="checkbox"  
 				id="ACTIVE_EXPORTER" 
 				name='PROP[ACTIVE_EXPORTER][]' 
-				value="89"
-				<?= in_array('89', (array)($_REQUEST['PROP']['ACTIVE_EXPORTER'] ?? [])) ? 'checked' : '' ?>
+				value="<?= $clientFilterYesEnumIds['ACTIVE_EXPORTER'] ?>"
+				<?= in_array($clientFilterYesEnumIds['ACTIVE_EXPORTER'], (array)($_REQUEST['PROP']['ACTIVE_EXPORTER'] ?? [])) ? 'checked' : '' ?>
 				>
 				<label style="display: inline;" class="form-check-label" for="ACTIVE_EXPORTER">
 					Действующий экспортер
