@@ -129,6 +129,11 @@
 	<? if (strlen($arResult['PROPERTIES']['MSP_TYPE']['VALUE']) !=""): ?>
 		<li>Категория МСП: <?=$arResult['PROPERTIES']['MSP_TYPE']['VALUE_ENUM']?></li>
 	<? endif ?>
+	<?
+		$isWomenBusiness = !empty($arResult['PROPERTIES']['WOMEN_BUSINESS']['VALUE'])
+			|| !empty($arResult['PROPERTIES']['WOMEN_BUSINESS']['VALUE_ENUM']);
+	?>
+	<li>Женское предпринимательство: <?= $isWomenBusiness ? 'Да' : 'Нет' ?></li>
 	
 	<? if (strlen($arResult['PROPERTIES']['MSP_TEXT']['VALUE']) > 5): ?>
 		<li xstyle="display:none"><?= $arResult['PROPERTIES']['MSP_TEXT']['VALUE'] ?></li>
