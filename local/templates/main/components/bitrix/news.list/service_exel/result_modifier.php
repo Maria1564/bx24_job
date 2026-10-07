@@ -18,7 +18,126 @@
 	$DATE_FROM =  false;
 	if($_REQUEST['DATE_FROM']){
 	    $s = strtotime($_REQUEST['DATE_FROM']);
-		$DATE_FROM = date('d.m.Y 23:59:59', $s);
+		$DATE_FROM = date('d.m.Y 00:00:01', $s);
+	}
+
+	if ($arParams['ALL_DATA_PAGE'] == 'Y') {
+		$serviceFilter = (array)$GLOBALS[$arParams["FILTER_NAME"]];
+		$serviceFilter['IBLOCK_ID'] = IBLOCK_ID_SERVICE;
+		$serviceFilter['ACTIVE'] = 'Y';
+
+		$combinedItems = [];
+		$rsServices = CIBlockElement::GetList(
+			[$_SESSION['sort']['name'] ?: 'DATE_ACTIVE_FROM' => $_SESSION['sort']['order'] ?: 'DESC'],
+			$serviceFilter,
+			false,
+			false,
+			[
+				'ID',
+				'IBLOCK_ID',
+				'NAME',
+				'PREVIEW_TEXT',
+				'DATE_ACTIVE_FROM',
+				'ACTIVE_FROM',
+				'DATE_ACTIVE_TO',
+				'ACTIVE_TO',
+			]
+		);
+		while ($obService = $rsServices->GetNextElement()) {
+			$fields = $obService->GetFields();
+			$fields['PROPERTIES'] = $obService->GetProperties();
+			$combinedItems[] = $fields;
+		}
+
+		$arEventFilter = [
+			'IBLOCK_ID' => 7,
+			'ACTIVE' => 'Y',
+		];
+		if ($_REQUEST['DATE_FROM']) {
+			$arEventFilter['>=DATE_ACTIVE_FROM'] = date('d.m.Y 00:00:01', strtotime($_REQUEST['DATE_FROM']));
+		}
+		if ($_REQUEST['DATE_TO']) {
+			$arEventFilter['<=DATE_ACTIVE_FROM'] = date('d.m.Y 23:59:59', strtotime($_REQUEST['DATE_TO']));
+		}
+		if (!empty($GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_MANAGER'])) {
+			$arEventFilter['PROPERTY_MANAGER'] = $GLOBALS[$arParams["FILTER_NAME"]]['PROPERTY_MANAGER'];
+		}
+
+		$arEventItems = [];
+		$rsEvents = CIBlockElement::GetList(
+			[$_SESSION['sort']['name'] ?: 'DATE_ACTIVE_FROM' => $_SESSION['sort']['order'] ?: 'DESC'],
+			$arEventFilter,
+			false,
+			false,
+			[
+				'ID',
+				'IBLOCK_ID',
+				'NAME',
+				'PREVIEW_TEXT',
+				'DATE_ACTIVE_FROM',
+				'ACTIVE_FROM',
+				'DATE_ACTIVE_TO',
+				'ACTIVE_TO',
+				'PROPERTY_CONTACT',
+				'PROPERTY_MANAGER',
+				'PROPERTY_STATUS',
+			]
+		);
+		while ($event = $rsEvents->Fetch()) {
+			$eventId = (int)$event['ID'];
+			if (!isset($arEventItems[$eventId])) {
+				$arEventItems[$eventId] = [
+					'ID' => $eventId,
+					'IBLOCK_ID' => (int)$event['IBLOCK_ID'],
+					'NAME' => $event['NAME'],
+					'PREVIEW_TEXT' => $event['PREVIEW_TEXT'],
+					'DATE_ACTIVE_FROM' => $event['DATE_ACTIVE_FROM'],
+					'ACTIVE_FROM' => $event['ACTIVE_FROM'],
+					'DATE_ACTIVE_TO' => $event['DATE_ACTIVE_TO'],
+					'ACTIVE_TO' => $event['ACTIVE_TO'],
+					'IS_EVENT' => true,
+					'PROPERTIES' => [
+						'CONTACT' => ['VALUE' => []],
+						'MANAGER' => ['VALUE' => $event['PROPERTY_MANAGER_VALUE']],
+						'STATUS' => ['VALUE' => $event['PROPERTY_STATUS_VALUE']],
+						'TYPE' => [
+							'VALUE_XML_ID' => 'EVENT',
+							'VALUE_ENUM' => 'Мероприятие',
+						],
+						'CLIENT' => ['VALUE' => ''],
+						'SMS_VOTE' => ['VALUE' => ''],
+						'BLUE_CLIENT' => ['VALUE' => ''],
+						'DIRECTION' => ['VALUE' => ''],
+						'MONEY' => ['VALUE' => ''],
+						'MONEY2' => ['VALUE' => ''],
+						'MONEY3' => ['VALUE' => ''],
+						'FINANCE_SOURCE' => ['VALUE' => ''],
+						'CLIENT_REFUSED' => ['VALUE' => ''],
+						'BX24_STATUS_EXT' => ['VALUE' => ''],
+					],
+				];
+			}
+			if ($event['PROPERTY_CONTACT_VALUE']) {
+				$arEventItems[$eventId]['PROPERTIES']['CONTACT']['VALUE'][] = $event['PROPERTY_CONTACT_VALUE'];
+			}
+		}
+
+		$arResult["ITEMS"] = array_merge($combinedItems, array_values($arEventItems));
+		usort($arResult["ITEMS"], function ($a, $b) {
+			$sortName = $_SESSION['sort']['name'] ?: 'DATE_ACTIVE_FROM';
+			$sortOrder = $_SESSION['sort']['order'] ?: 'DESC';
+			if ($sortName == 'NAME') {
+				$result = strcasecmp($a['NAME'], $b['NAME']);
+			} else {
+				$result = MakeTimeStamp($a['DATE_ACTIVE_FROM']) <=> MakeTimeStamp($b['DATE_ACTIVE_FROM']);
+			}
+			return $sortOrder == 'ASC' ? $result : -$result;
+		});
+		$arResult['NAV_RESULT'] = (object)[
+			'PAGEN' => 1,
+			'SIZEN' => max(count($arResult["ITEMS"]), 1),
+			'NavRecordCount' => count($arResult["ITEMS"]),
+		];
 	}
 	
 	

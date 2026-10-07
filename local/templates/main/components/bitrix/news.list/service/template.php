@@ -123,11 +123,12 @@
 	
 	<?
 		//continue;
+		$isEvent = !empty($arItem['IS_EVENT']);
 		$taskStatusClass = '';
-	    if($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT' && $arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED){
+	    if(!$isEvent && $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT' && $arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED){
 			$taskStatusClass = 'task-status-success';		   
 		}
-		if($arItem['PROPERTIES']['CLIENT_REFUSED']['VALUE'] == 1){
+		if(!$isEvent && $arItem['PROPERTIES']['CLIENT_REFUSED']['VALUE'] == 1){
 			$taskStatusClass = 'task-status-refused';	
 			$arItem['PROPERTIES']['STATUS']['VALUE'] = false;
 		}
@@ -138,7 +139,8 @@
 		$arT = explode(" ",$arItem["DATE_ACTIVE_TO"]);
 		$arItem["DATE_ACTIVE_TO"] =  $arT [0];
 
-		$isClosedService = $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT'
+		$isClosedService = !$isEvent
+			&& $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT'
 			&& $arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_CLOSED;
 		$deadlineDate = Service::calculateDeadline($arItem["DATE_ACTIVE_FROM"], $arItem["DATE_ACTIVE_TO"]);
 		$isDeadlineExpired = false;
@@ -180,11 +182,11 @@
 		<div class="col-md-1 date-col">
 		    <? echo $arItem["DISPLAY_ACTIVE_FROM"] ?>
 			<?if($arParams['ALL_DATA_PAGE']):?>
-			<span class="list-s-type <?=$arItem['PROPERTIES']['TYPE']['VALUE_XML_ID']?>"><?=$arItem['PROPERTIES']['TYPE']['VALUE_ENUM']?></span>
+			<span class="list-s-type <?=$arItem['PROPERTIES']['TYPE']['VALUE_XML_ID']?>"><?=$isEvent ? 'Мероприятие' : $arItem['PROPERTIES']['TYPE']['VALUE_ENUM']?></span>
 			<?endif?>
 		</div>
 		<div class="col-md-10">
-		    <? if ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT'): ?>
+		    <? if (!$isEvent && $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] != 'CONSULT'): ?>
 			<div class="status">  
 			<?
 				if ($arItem['PROPERTIES']['STATUS']['VALUE'] == Service::STATUS_ACTIVE)
@@ -198,6 +200,7 @@
 		    <a class="name" href="<?= $arItem['DETAIL_PAGE_URL'] ?>"><? echo $arItem["NAME"] ?></a>
 			
 		    <div class="info">
+				<? if (!$isEvent): ?>
 				<div>
 					<?
 						$clientId = (int)$arItem['PROPERTIES']['CLIENT']['VALUE'];
@@ -209,10 +212,11 @@
 					<span class="tl-info-title">клиент</span>
 					<span class="tl-user"><?= htmlspecialcharsbx($clientName) ?></span>
 				</div>
+				<? endif ?>
 				<div>
 					<?
 						$managerId = (int)$arItem['PROPERTIES']['MANAGER']['VALUE'];
-						if ($managerId <= 0) {
+						if (!$isEvent && $managerId <= 0) {
 							$managerId = (int)getServiceListStoredPropertyValue($arItem['IBLOCK_ID'], $arItem['ID'], 'MANAGER');
 						}
 						$managerName = getServiceListManagerName($managerId, $allManagers);
@@ -222,7 +226,10 @@
 				</div>
 				
 				<div>
-					<? if ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] == 'CONSULT'): ?>
+					<? if ($isEvent): ?>
+				    <span class="tl-info-title">Период мероприятия</span>
+				    <span class="tl-user"> <?= $arItem["DATE_ACTIVE_FROM"] ?>  <?= $arItem["DATE_ACTIVE_TO"]!=""?'- '.$arItem["DATE_ACTIVE_TO"]:'' ?></span>
+					<? elseif ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] == 'CONSULT'): ?>
 				    <span class="tl-info-title">дата </span>
 				    <span class="tl-user"> <?= $arItem["DATE_ACTIVE_FROM"] ?></span>
 					<? else: ?>
@@ -231,6 +238,12 @@
 					<? endif ?>
 					
 				</div>
+				<? if ($isEvent): ?>
+				<div>
+					<span class="tl-info-title">участников</span>
+					<span class="tl-user"><?if($arItem["PROPERTIES"]["CONTACT"]["VALUE"]):?><?=count($arItem["PROPERTIES"]["CONTACT"]["VALUE"])?><?else:?>0<?endif?></span>
+				</div>
+				<? endif ?>
 				<? if ($isClosedService && $deadlineDate != ''): ?>
 				<div class="<?= $isDeadlineExpired ? 'contract-deadline-expired' : '' ?>">
 				    <span class="tl-info-title">Дедлайн по контракту</span>

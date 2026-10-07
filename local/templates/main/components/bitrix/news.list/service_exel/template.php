@@ -215,7 +215,7 @@
 		"N"=>$N,
 		"LOG"=>$arItem['PROPERTIES']['CLIENT_REFUSED'],
 		"NAME" => $arItem["NAME"],
-		"TYPE" => $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID']== 'CONSULT'?'консультация':'услуга',
+		"TYPE" => $arItem["TYPE"] ?: ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID']== 'CONSULT'?'консультация':'услуга'),
 		"PREVIEW_TEXT" => $arItem["PREVIEW_TEXT"],
 		"CLIENT" => $arClient['NAME'],
 		"BLUE_CLIENT" => $arClient['BLUE_CLIENT'],

@@ -141,6 +141,7 @@ a.loading:before {
     color: #9c27b0;
 }
 .list-s-type.CONSULT {color: #00bcd4;}
+.list-s-type.EVENT {color: #43a047;}
 .title-section {margin-bottom:50px;}
 .search-text-wrap {    position: absolute;
     margin-left: 163px;

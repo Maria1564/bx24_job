@@ -9,7 +9,8 @@
 		
 		$arTemp[$i] = [
 		"NAME" => $arItem["NAME"],
-		"TYPE" => $arItem['PROPERTIES']['TYPE']['VALUE_XML_ID']== 'CONSULT'?'консультация':'услуга',
+		"TYPE" => !empty($arItem['IS_EVENT']) ? 'мероприятие' : ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID']== 'CONSULT'?'консультация':'услуга'),
+		"IS_EVENT" => !empty($arItem['IS_EVENT']),
 		"PREVIEW_TEXT" => $arItem["PREVIEW_TEXT"],
 		"DATE_ACTIVE_FROM" => $arItem["DATE_ACTIVE_FROM"],
 		"DATE_ACTIVE_TO" => $arItem["DATE_ACTIVE_TO"],
