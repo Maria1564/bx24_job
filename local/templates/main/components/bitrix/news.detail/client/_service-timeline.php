@@ -41,11 +41,6 @@
 				$taskStatusClass = 'task-status-refused';		   
 			}
 			
-			//Если у консультации есть связь с услугой то пропускаем!!!
-			if ($ar['TYPE'] == 'CONSULT' && $ar['SERVICE']['ID'] != null){
-				continue;	
-			}
-			
 			//C2:WON
 			//	$stausBx24 = 
 		?>
