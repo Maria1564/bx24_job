@@ -1,5 +1,41 @@
 var searchResult, orgData, userType, company;
 
+function normalizeRuPhoneValue(value) {
+	var digits = (value || '').replace(/\D/g, '');
+
+	if (digits.length > 10 && (digits.charAt(0) === '8' || digits.charAt(0) === '7')) {
+		digits = digits.substring(1);
+	}
+
+	return digits.substring(0, 10);
+}
+
+function formatRuPhoneForMask(digits) {
+	if (digits.length < 10) {
+		return digits;
+	}
+
+	return '+7 (' + digits.substring(0, 3) + ') ' + digits.substring(3, 6) + '-' + digits.substring(6, 8) + '-' + digits.substring(8, 10);
+}
+
+function applyNormalizedRuPhone(input, iti) {
+	var digits = normalizeRuPhoneValue(input.value);
+
+	if (!digits) {
+		return;
+	}
+
+	if (iti) {
+		input.value = digits;
+		iti.setCountry('ru');
+		iti.setNumber('+7' + digits);
+	} else {
+		$(input).val(formatRuPhoneForMask(digits)).trigger('input');
+	}
+
+	$(input).trigger('change');
+}
+
 $(document).ready(function () {
     
     /*$('button[type="submit"]').click(function(){
@@ -22,7 +58,7 @@ $(document).ready(function () {
 	
 	inputs.forEach(input => {
 		console.log(input.name);
-		 window.intlTelInput(input, {
+		const iti = window.intlTelInput(input, {
 			loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@26.0.6/build/js/utils.js"),
 			separateDialCode : true,
 			//nationalMode: false,
@@ -36,7 +72,29 @@ $(document).ready(function () {
 			}),			
 			
 		});
+
+		input.addEventListener('paste', function () {
+			setTimeout(function () {
+				applyNormalizedRuPhone(input, iti);
+			}, 0);
+		});
+
+		input.addEventListener('blur', function () {
+			applyNormalizedRuPhone(input, iti);
+		});
 		
+	});
+
+	$(document).on('paste', '.input-phone-mask', function () {
+		var input = this;
+
+		setTimeout(function () {
+			applyNormalizedRuPhone(input);
+		}, 0);
+	});
+
+	$(document).on('blur', '.input-phone-mask', function () {
+		applyNormalizedRuPhone(this);
 	});
 	
 	
