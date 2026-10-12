@@ -49,10 +49,6 @@ $arManagers = Helper::getManagers();
 				<span>Последний контакт</span>
 				<span><?= $arItem['LAST_CONTACT_DATE'] ?></span>
 			    </td>
-			    <td>
-				<span>Менеджер</span>
-				<span><?= $arManagers[$arItem["PROPERTIES"]['MANAGER']['VALUE']]['FIO'] ?></span>
-			    </td>
 			</tr>
 
 		    </table>

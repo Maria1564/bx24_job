@@ -32,21 +32,6 @@ $allManagers = Helper::getManagers();
 //	$stausBx24 = 
 	?>
 		<?
-		/*
-		//отображение смены менджеров
-		if ($i != 0 && $ar['MANAGER_ID'] != $last_manager_id &&  $ar['MANAGER_ID']!='') {
-			?>
-			<li class="event event-user-changed" data-date="8:30 - 9:30pm">
-			    <span class="date"><?= $ar['DATE'] ?></span>
-			    <p>Смена менеджера от 
-				<b><?= $allManagers[$ar['MANAGER_ID']]['FIO'] ?></b>
-				к  
-				<b><?= $allManagers[$last_manager_id]['FIO'] ?></b>
-			    </p>    
-			</li>
-			<?
-		}
-		*/
 		?>
 		<li class="event" data-date="">
 		    <span class="date"> <?= $ar['DATE'] ?></span>
@@ -63,10 +48,6 @@ $allManagers = Helper::getManagers();
 
 		    <? endif ?>
 		    <div class="info">
-			<div>
-			    <span class="tl-info-title">ответсвтенный</span>
-			    <span class="tl-user"><?= $allManagers[$ar['MANAGER_ID']]['FIO'] ?></span>
-			</div>
 			<div>
 			    <span class="tl-info-title">
 				<? if ($ar['TYPE'] == 'CONSULT'): ?>

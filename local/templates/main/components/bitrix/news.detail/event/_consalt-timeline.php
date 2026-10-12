@@ -21,20 +21,6 @@ $allManagers = Helper::getManagers();
 
 	<? foreach ($allServices as $i => $ar): ?>
 
-		<?
-		if ($i != 0 && $ar['MANAGER_ID'] != $last_manager_id) {
-			?>
-			<li class="event event-user-changed" data-date="8:30 - 9:30pm">
-			    <span class="date"><?= $ar['DATE'] ?></span>
-			    <p>Смена менеджера от 
-				<b><?= $allManagers[$ar['MANAGER_ID']]['FIO'] ?></b>
-				к  
-				<b><?= $allManagers[$last_manager_id]['FIO'] ?></b>
-			    </p>    
-			</li>
-			<?
-		}
-		?>
 		<li class="event" data-date="">
 		    <span class="date"> <?= $ar['DATE'] ?></span>
 		    <h3><?= $ar['NAME'] ?> 
@@ -43,11 +29,6 @@ $allManagers = Helper::getManagers();
 			<? endif ?>
 		    </h3>
 		    <div class="info">
-			<div>
-			    <span class="tl-info-title">ответсвтенный</span>
-			    <span class="tl-user"><?= $allManagers[$ar['MANAGER_ID']]['FIO'] ?></span>
-			</div>
-		
 			<? if ($ar['TYPE'] == 'CONSULT' && $ar['SERVICE']['ID'] != null): ?>
 				<div>
 				    <span class="tl-info-title">Услуга</span>

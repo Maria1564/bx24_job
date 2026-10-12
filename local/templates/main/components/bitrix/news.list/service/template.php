@@ -214,18 +214,6 @@
 				</div>
 				<? endif ?>
 				<div>
-					<?
-						$managerId = (int)$arItem['PROPERTIES']['MANAGER']['VALUE'];
-						if (!$isEvent && $managerId <= 0) {
-							$managerId = (int)getServiceListStoredPropertyValue($arItem['IBLOCK_ID'], $arItem['ID'], 'MANAGER');
-						}
-						$managerName = getServiceListManagerName($managerId, $allManagers);
-					?>
-					<span class="tl-info-title">ответственный</span>
-					<span class="tl-user"><?= htmlspecialcharsbx($managerName) ?></span>
-				</div>
-				
-				<div>
 					<? if ($isEvent): ?>
 				    <span class="tl-info-title">Период мероприятия</span>
 				    <span class="tl-user"> <?= $arItem["DATE_ACTIVE_FROM"] ?>  <?= $arItem["DATE_ACTIVE_TO"]!=""?'- '.$arItem["DATE_ACTIVE_TO"]:'' ?></span>

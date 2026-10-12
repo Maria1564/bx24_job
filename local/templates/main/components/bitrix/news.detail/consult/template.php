@@ -43,7 +43,6 @@ $allManagers = Helper::getManagers();
     <div class="client">
 	<i class="fa fa-calendar"></i> <span style="margin-right: 20px; "><?= $arResult['DATE_ACTIVE_FROM'] ?></span><br>
 	<i class="fa fa-user"></i> <a href="/clients/<?= $client['ID'] ?>/"><?= $client['NAME'] ?></a><br>
-	<i class="fa fa-user"></i> ответственный <b title="<?= $allManagers[$arResult['PROPERTIES']['MANAGER']['VALUE'] ]['USER_ID'] ?> <?= $allManagers[$arResult['PROPERTIES']['MANAGER']['VALUE']]['FIO'] ?>"><?= $allManagers[$arResult['PROPERTIES']['MANAGER']['VALUE']]['FIO'] ?></b><br>
     <i class="fa fa-map-signs"></i> направление <?=$arResult['PROPERTIES']['DIRECTION']['VALUE']?$arResult['PROPERTIES']['DIRECTION']['VALUE']:"не указано"?></a><br>
 	</div>
     </div>

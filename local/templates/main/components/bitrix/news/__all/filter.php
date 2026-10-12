@@ -152,21 +152,6 @@
 			</div>
 		</div>
 		<div class="col-flex">
-			<div class="form-group">
-				<label for="exampleFormControlSelect1">Менеджер</label>
-				<select class="form-control" name='PROP[MANAGER]'>
-					<option value="">Все</option>
-					<? foreach ($arManagers as $id => $client): ?>
-					<option value='<?= $id ?>' <?= $_REQUEST['PROP']['MANAGER'] == $id ? 'selected' : '' ?>> 
-						<?= $client['FIO'] ?>
-					</option>
-					<? endforeach ?>
-				</select>
-			</div>
-			
-		</div>
-		
-		<div class="col-flex">
 		<label for=""> </label>
 			<button style="margin-top: 26px;" type="button" onclick="filterGetData()" class="btn btn-success btn-sm" >Фильтровать</button>
 		</div>

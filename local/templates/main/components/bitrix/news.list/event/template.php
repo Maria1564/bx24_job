@@ -71,11 +71,6 @@
 			
 		    <div class="info">
 				<div>
-					<span class="tl-info-title">ответственный</span>
-					<span class="tl-user"><?= $allManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'] ?></span>
-				</div>
-				
-				<div>
 					<? if ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] == 'CONSULT'): ?>
 				    <span class="tl-info-title">дата </span>
 				    <span class="tl-user"> <?= $arItem["DATE_ACTIVE_FROM"] ?></span>

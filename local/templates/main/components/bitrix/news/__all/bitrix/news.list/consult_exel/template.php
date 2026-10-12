@@ -7,7 +7,6 @@ $arManagers = Helper::getManagers();
 $arTitle = [
 	"NAME" => "Консультация",
 	"CLIENT" => "Клиент",
-	"MANAGER" => "Ответсвтенный",
 	"PERIOD" => "Период оказания услуги",
 	"STATUS" => "Статус",
 	"PREVIEW_TEXT" => "Описание",
@@ -46,7 +45,6 @@ foreach ($arResult["ITEMS"] as $arItem) {
 		"NAME" => $arItem["NAME"],
 		"PREVIEW_TEXT" => $arItem["PREVIEW_TEXT"],
 		"CLIENT" => $arClient['~NAME'],
-		"MANAGER" => $arManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'],
 		"STATUS" => $STATUS,
 		"PERIOD" => $arItem["DATE_ACTIVE_FROM"] . '' . ($arItem["DATE_ACTIVE_TO"] != "" ? '- ' . $arItem["DATE_ACTIVE_TO"] : '' ),
 	];

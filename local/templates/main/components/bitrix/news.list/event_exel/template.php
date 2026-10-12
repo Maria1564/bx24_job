@@ -11,7 +11,6 @@
 	"N" => "",
 	"NAME" => "Мероприятие",	
 	"TYPE" => "Тип",
-	"MANAGER" => "Ответственный",
 	"PERIOD_A" => "Дата начала",
 	"PERIOD_B" => "Дата завершения",
 	"PREVIEW_TEXT" => "Описание",
@@ -122,8 +121,6 @@
 		"NAME" => $arItem["NAME"],
 		"TYPE" => "Мероприятие",
 		"PREVIEW_TEXT" => $arItem["PREVIEW_TEXT"],
-
-		"MANAGER" => $arManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'],
 		"PERIOD" => $arItem["DATE_ACTIVE_FROM"] . '' . ($arItem["DATE_ACTIVE_TO"] != "" ? '- ' . $arItem["DATE_ACTIVE_TO"] : '' ),
 		"PERIOD_A" => $arItem["DATE_ACTIVE_FROM"],
 		"PERIOD_B" => $arItem["DATE_ACTIVE_TO"],

@@ -45,21 +45,6 @@
 			//	$stausBx24 = 
 		?>
 		<?
-			/*
-				//отображение смены менджеров
-				if ($i != 0 && $ar['MANAGER_ID'] != $last_manager_id &&  $ar['MANAGER_ID']!='') {
-				?>
-				<li class="event event-user-changed" data-date="8:30 - 9:30pm">
-			    <span class="date"><?= $ar['DATE'] ?></span>
-			    <p>Смена менеджера от 
-				<b><?= $allManagers[$ar['MANAGER_ID']]['FIO'] ?></b>
-				к  
-				<b><?= $allManagers[$last_manager_id]['FIO'] ?></b>
-			    </p>    
-				</li>
-				<?
-				}
-			*/
 			if($ar['DATE_TO']){
 			  $ar['STATUS'] = 0;
 			}
@@ -97,10 +82,6 @@
 				
 		  
 		    <div class="info">
-				<div>
-					<span class="tl-info-title">ответственный</span>
-					<span class="tl-user"><?= $allManagers[$ar['MANAGER_ID']]['FIO'] ?></span>
-				</div>
 				<? if ($ar['TYPE'] == 'EVENT'): ?>
 					<div>
 					<p>Участники: </p>

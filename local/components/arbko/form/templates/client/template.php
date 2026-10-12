@@ -33,12 +33,7 @@
 	    <input id="client-input" type="hidden" class="form-control" name="PROPERTY[CLIENT]" value="<?= $arResult['CLIENT']['ID'] ?>">	
 	</div>
 
-	<div class="form-group">
-	    <input type="hidden" id="input-manager-id" class="form-control" name="PROPERTY[MANAGER]" value="<?= $arResult["MANAGER"]['USER_ID'] ?>">
-	    <label>Менеджер</label>
-	    <span id="input-manager-name"><?= $arResult["MANAGER"]['FIO'] ?></span>
-	    <a style="cursor: pointer" onclick="popupChangeManager('setManager')">Сменить</a>
-	</div>
+	<input type="hidden" id="input-manager-id" name="PROPERTY[MANAGER]" value="<?= $arResult["MANAGER"]['USER_ID'] ?>">
 
 
 

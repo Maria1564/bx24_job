@@ -105,8 +105,6 @@
 		</div>
 	</div>
 	
-	<p style="margin-top:20px;"><?if($arResult['PROPERTIES']['MANAGER']['VALUE']):?>Менеджер: <span style="font-weight:bold;"><?=$allManagers[$arResult['PROPERTIES']['MANAGER']['VALUE']]["FIO"]?></span> <?endif?></p>
-	
     <div class="description">
 	
 		<?=Helper::normalizeBx24tags($arResult['~PREVIEW_TEXT'])?>

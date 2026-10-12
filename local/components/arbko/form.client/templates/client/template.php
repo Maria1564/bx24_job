@@ -226,12 +226,7 @@
 				
 				
 				
-				<div class="form-group">
-					<input required="" style="opacity: 0;height: 1px;width: 300px;" type="text" id="input-manager-id" class="form-control" name="PROPERTY[MANAGER]" value="<?= $arResult["MANAGER"]['USER_ID'] ?>">
-					<label>Менеджер*</label>
-					<span id="input-manager-name"><?= $arResult["MANAGER"]['FIO'] ?></span>
-					<a style="cursor: pointer" onclick="popupChangeManager('setManager')">Сменить</a>
-				</div>
+				<input type="hidden" id="input-manager-id" name="PROPERTY[MANAGER]" value="<?= $arResult["MANAGER"]['USER_ID'] ?>">
 				
 				<div class="form-group">
 					<label>Описание</label>

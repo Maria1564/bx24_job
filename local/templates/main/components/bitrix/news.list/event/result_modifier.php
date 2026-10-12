@@ -28,7 +28,6 @@
 		$arTitle = [
 		"NAME" => "Услуга",
 		"CLIENT" => "Клиент",
-		"MANAGER" => "Ответсвтенный",
 		"PREVIEW_TEXT" => "Описание",
 		];
 		foreach ($arResult["ITEMS"] as $arItem) {
@@ -41,7 +40,6 @@
 			"NAME" => $arItem["NAME"],
 			"PREVIEW_TEXT" => $arItem["PREVIEW_TEXT"],
 			"CLIENT" => $arClient['NAME'],
-			"MANAGER" => $allManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'],
 			];
 		}
 		

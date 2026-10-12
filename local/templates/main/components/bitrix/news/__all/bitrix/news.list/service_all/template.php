@@ -70,11 +70,6 @@ $allManagers = Helper::getManagers();
 			    <span class="tl-user"><?= $arClient['NAME'] ?></span>
 			</div>
 			<div>
-			    <span class="tl-info-title">ответсвтенный</span>
-			    <span class="tl-user"><?= $allManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'] ?></span>
-			</div>
-
-			<div>
 			    <? if ($arItem['PROPERTIES']['TYPE']['VALUE_XML_ID'] == 'CONSULT'): ?>
 				    <span class="tl-info-title">дата </span>
 				    <span class="tl-user"> <?= $arItem["DATE_ACTIVE_FROM"] ?></span>

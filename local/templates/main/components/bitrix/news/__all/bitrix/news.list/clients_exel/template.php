@@ -13,7 +13,6 @@ $arTitle = [
 	//"PREVIEW_TEXT" => "Описание",
 	"SERVICE_COUNT" => "Количество услуг",
 	"LAST_CONTACT_DATE" => "Послдений контакт",
-	"MANAGER" => "Менеджер",
 ];
 $arCels = 'ABCDEFGHIJKLMNOPQRSTUVW';
 $sheet = $GLOBALS['$sheet'];
@@ -37,7 +36,6 @@ foreach ($arResult["ITEMS"] as $arItem) {
 		"PREVIEW_TEXT" => $arItem["PREVIEW_TEXT"],
 		"SERVICE_COUNT" => $arItem["SERVICE_COUNT"],
 		"LAST_CONTACT_DATE" => $arItem["LAST_CONTACT_DATE"],
-		"MANAGER" => $arManagers[$arItem["PROPERTIES"]['MANAGER']['VALUE']]['FIO'],
 		"PHONE" => $arItem['PROPERTIES']['PHONE']['VALUE'],
 		"EMAIL" => $arItem['PROPERTIES']['EMAIL']['VALUE'],
 		"INN" => $arItem['PROPERTIES']['INN']['VALUE'],

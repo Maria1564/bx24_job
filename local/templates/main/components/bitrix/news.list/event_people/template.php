@@ -114,11 +114,6 @@
 			
 		    <div class="info">
 				<div>
-					<span class="tl-info-title">ответственный</span>
-					<span class="tl-user"><?= $allManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'] ?></span>
-				</div>
-				
-				<div>
 				    <span class="tl-info-title">Период оказания услуги</span>
 				    <span class="tl-user"> <?= $arItem["DATE_ACTIVE_FROM"] ?>  <?= $arItem["DATE_ACTIVE_TO"]!=""?'- '.$arItem["DATE_ACTIVE_TO"]:'' ?></span>		
 				</div>

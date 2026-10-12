@@ -18,7 +18,6 @@ $arTitle = [
 	"NAME" => "Услуга",
 	"CLIENT" => "Клиент",
 	"INN" => "ИНН",
-	"MANAGER" => "Ответсвтенный",
 	"PERIOD_A" => "Дата создания",
 	"PERIOD_B" => "Дата завершения",
 	"STATUS" => "Статус",
@@ -42,7 +41,6 @@ if($isConsultPage){
 	"CLIENT" => "Клиент",
 	"INN" => "ИНН",
 	"CLIENT_TYPE" => "Тип клиента",
-	"MANAGER" => "Ответсвтенный",
 	"PERIOD_A" => "Дата создания",
 	"PERIOD_B" => "Дата завершения",
 	"STATUS" => "Статус",
@@ -146,7 +144,6 @@ foreach ($arResult["ITEMS"] as $arItem) {
 		"INN" => $arClient['INN'],
 		//Тип клиента ORG_TYPE
 		"CLIENT_TYPE" => $arClient['ORG_TYPE'],
-		"MANAGER" => $arManagers[$arItem['PROPERTIES']['MANAGER']['VALUE']]['FIO'],
 		"STATUS" => $STATUS,
 		//"PERIOD" => $arItem["DATE_ACTIVE_FROM"] . '' . ($arItem["DATE_ACTIVE_TO"] != "" ? '- ' . $arItem["DATE_ACTIVE_TO"] : '' ),
 		"PERIOD_A" => $arItem["DATE_ACTIVE_FROM"],
