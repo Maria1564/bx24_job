@@ -21,15 +21,6 @@
 
 <div>
     <table  style="width: auto">
-	<tr>
-	    <td>Имя </td><td><?= $arResult['PROPERTIES']['CONTACT_NAME']['~VALUE'] ?></td>
-	</tr>
-	<tr>
-	    <td>Телефон</td><td><?= $arResult['PROPERTIES']['PHONE']['VALUE'] ?></td>
-	</tr>
-	<tr>
-	    <td>Email</td><td><?= $arResult['PROPERTIES']['EMAIL']['VALUE'] ?></td>
-	</tr>
 	<?if($arResult['PROPERTIES']['CONTACT_POST']['VALUE']):?>
 	<tr>
 	    <td>Должность</td><td><?= $arResult['PROPERTIES']['CONTACT_POST']['VALUE'] ?></td>
